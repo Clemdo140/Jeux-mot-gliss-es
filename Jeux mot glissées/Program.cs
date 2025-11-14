@@ -10,6 +10,7 @@ namespace Jeux_mot_glissées
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("s");
         }
     }
 }
