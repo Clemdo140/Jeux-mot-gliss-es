@@ -8,5 +8,6 @@ namespace Jeux_mot_glissées
 {
     internal class Jeu
     {
+       
     }
 }
