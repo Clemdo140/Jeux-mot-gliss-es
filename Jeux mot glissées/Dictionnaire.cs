@@ -10,38 +10,77 @@ namespace Jeux_mot_glissées
 {
     internal class Dictionnaire
     {
-        // Définition des attributs privés de la classe dictionnaire
+        private const string NOM_FICHIER_DICO = "MotsFrancais.txt";
+        private List<List<string>> motsparlettre; //Liste des 26 lettres et chaque lettre contient une liste contenant tous les mots qui commencent par cette lettre
+        private string langue = "Français"; 
 
-        private List<string> mots; 
-        private string langue = "Français"; //Langue du dictionnaire, par défaut en "Français"
-
-        // Constructeur de la classe dictionnaire pour initialiser les attributs
-        public Dictionnaire(string MotsFrancais.txt)
+        public List<List<string>> Motsparlettre
         {
-            this.mots = mots;
-            this.langue = langue;
+            get { return motsparlettre; }
+            private set { motsparlettre = value;}
         }
-        public List<string> Mots
-        {
-            get { return this.mots; }
-        }
-
+    
+        
         public string Langue
         {
-            get { return this.langue; }
+            get { return langue; }
+            private set {langue = value; }
+        }
+        public Dictionnaire()
+        {
+            this.Langue = "Français";
+            Motsparlettre = new List<List<string>>();
+            // Initialisation des 26 sous-listes (une par lettre)
+            for (int i = 0; i < 26; i++)
+            {
+                Motsparlettre.Add(new List<string>());
+            }
+
+            LireDictionnaire();
+            Tri_QuickSort(); // Appel au tri imposé après le chargement
         }
 
-        public string toString()
+        public void Tri_QuickSort()//utilise Quicksort
         {
-            return ($"mots : {this.mots} \nlangue : {this.langue} ");
         }
-        public bool RechDichoRecursif(string mot)
+
+        public void QuickSort()//utilise Partition
+        {
+        }
+        private int Partition()
+        {
+
+        }
+        private void LireDictionnaire()
+        {
+
+        }
+        public bool RechDichoRecursif(string mot)//utilise  RechercherMotRecursifAide
         {
             return false;
         }
-        public void Tri_XXX()
+
+        private bool RechercherMotRecursifAide(List<string> liste, string mot, int debut, int fin)
         {
 
         }
+        public string toString()//Afficher l'ensemble des mots du dictionnaire
+        {
+            int totalMots = 0;
+
+            foreach (var listeMots in Motsparlettre)//on calcul le nombre total de mots
+            {
+                if (listeMots != null)
+                {
+                    totalMots += listeMots.Count;//ajoute le nombre de mot qui commencent par la lettre de la boucle
+                }
+            }
+
+            string description = "--- Dictionnaire " + this.Langue + " ---";
+            description += "\nNombre total de mots : " + totalMots.ToString();
+
+            return description;
+        }
+        
     }
 }
