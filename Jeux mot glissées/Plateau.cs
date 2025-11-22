@@ -56,7 +56,7 @@ namespace Jeux_mot_glissées
         public void ToFile(string nomfile)//sauvegarder l'état interne de la matrice de lettres, elle prend l'etat actuel de la matrice lettres et la convertit en format simple
         {
             {
-                try // si le chemin est bon, méthode try/catch pour éviter les erreurs
+                try // si le chemin est bon, méthode try/catch pour éviter les erreurs p14 cmo4
                 {
                     string[] lignes = new string[nblignes];// on convertir un tableau 2D en 1 tableau 1D de chaines de caractères
                     for (int i = 0; i < nblignes; i++)

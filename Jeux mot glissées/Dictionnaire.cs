@@ -37,32 +37,82 @@ namespace Jeux_mot_glissées
             }
 
             LireDictionnaire();
-            Tri_QuickSort(); // Appel au tri imposé après le chargement
+            Tri_QuickSort(); // tri du dictionnaire
         }
 
-        public void Tri_QuickSort()//utilise Quicksort
+        public void Tri_QuickSort()
         {
+            foreach (var listeMots in Motsparlettre) // on applique le tri sur chaque sous-liste dans le tableau
+            {
+              
+                if (listeMots != null)//on vérifie qu"elle n'est pas nulle
+                    QuickSort(listeMots, 0, listeMots.Count - 1);
+            }
         }
 
-        public void QuickSort()//utilise Partition
+        private void QuickSort(List<string> liste, int debut, int fin)//récursive
         {
+            if (debut < fin)//Condition d'arret 
+            {
+                int pivotIndex = Partition(liste, debut, fin);// sépare la liste en 3 parties, à gauche les elements < pivot, le pivot au milieu et à droite les elements > pivot
+                QuickSort(liste, debut, pivotIndex - 1); // Tri partie gauche
+                QuickSort(liste, pivotIndex + 1, fin);  // Tri partie droite
+            }
         }
-        private int Partition()
+        private int Partition(List<string> liste, int debut, int fin)//choisir un pivot et réarrange un segment de liste pour que le pivot se retrouve à sa place définitive.
         {
+     
+            string pivot = liste[fin];
+            int i = (debut - 1);//pour indiquer la position du prochain élément
 
+            for (int j = debut; j < fin; j++)
+            {
+                if (string.Compare(liste[j], pivot, StringComparison.OrdinalIgnoreCase) <= 0)//on compare liste[j] et pivot en ne demandant pas detenir compte des majuscules avec StringComparison.OrdinalIgnoreCase
+                {
+                    i++;
+                
+                    string temp = liste[i];
+                    liste[i] = liste[j];
+                    liste[j] = temp;
+                }
+            }
+            string temp2 = liste[i + 1];
+            liste[i + 1] = liste[fin];//on place le pivot à sa position définitive
+            liste[fin] = temp2;
+            return i + 1; //retourne l'index du pivot
         }
         private void LireDictionnaire()
         {
+            try//méthode try catch pour éviter une nouvelle fois les erreurs et afficher message d'erreur si l'instruction dangereuse ne fonctionne pas p14 cmo4
+            {
+               
+                using (StreamReader sr = new StreamReader(NOM_FICHIER_DICO)) // ouvre le fichier en mode lecture bufferisée
+                {
+                    string ligne;
 
-        }
-        public bool RechDichoRecursif(string mot)//utilise  RechercherMotRecursifAide
-        {
-            return false;
-        }
+                
+                    for (int i = 0; i < 26; i++)    //boucle pour lire les 26 lignes du fichier (une par lettre)
+                    {
+                        ligne = sr.ReadLine(); //lit la ligne
 
-        private bool RechercherMotRecursifAide(List<string> liste, string mot, int debut, int fin)
-        {
+                      
+                        if (ligne!=null)
+                        {
+                           
+                            var mots = ligne.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)//on sépare la chaine de caractere en un tableau de mots, avec l'espace comme séparateur et StringSplitOptions.RemoveEmptyEntries permet d'enlever les chaines vides pour garder que les mots valides
+                                            .Select(m => m.Trim().ToUpper())//on enleve les espaces et on met en majuscules
+                                            .ToList();//on le convertit en liste car Split convertit forcément en tableau, dcp on reconvertit en liste après avoir nettoyé
 
+                            Motsparlettre[i].AddRange(mots); //on stocka des mots dans la bonne sous-liste 
+                        }
+                    }
+                } // 'using' ferme automatiquement le StreamReader ici, même en cas d'erreur.
+            }
+            catch (Exception ex)
+            {
+                
+                Console.WriteLine($"Erreur lors de la lecture du dictionnaire '{NOM_FICHIER_DICO}' : {ex.Message}");//en cas d'erreur
+            }
         }
         public string toString()//Afficher l'ensemble des mots du dictionnaire
         {
@@ -81,6 +131,15 @@ namespace Jeux_mot_glissées
 
             return description;
         }
-        
+        public bool RechDichoRecursif(string mot)//utilise  RechercherMotRecursifAide
+        {
+            return false;
+        }
+
+        private bool RechercherMotRecursifAide(List<string> liste, string mot, int debut, int fin)
+        {
+
+        }
+
     }
 }
