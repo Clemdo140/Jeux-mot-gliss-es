@@ -16,7 +16,7 @@ namespace Jeux_mot_glissées
         private string langue = "Français"; //Langue du dictionnaire, par défaut en "Français"
 
         // Constructeur de la classe dictionnaire pour initialiser les attributs
-        public Dictionnaire(string MotsFrancais.txt )
+        public Dictionnaire(string MotsFrancais.txt)
         {
             this.mots = mots;
             this.langue = langue;
@@ -26,60 +26,10 @@ namespace Jeux_mot_glissées
             get { return this.mots; }
         }
 
-
-
-
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public string Langue
         {
             get { return this.langue; }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public string toString()
         {

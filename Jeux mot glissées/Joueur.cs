@@ -8,10 +8,10 @@ namespace Jeux_mot_glissées
 {
     internal class Joueur
     {
-        string nom;
-        List<string> motstrouvés;
-        int scoretot;
-        List<int> scoreplateau;
+        private string nom;
+        private List<string> motstrouvés;
+        private int scoretot;
+        private List<int> scoreplateau;
 
         public Joueur(string nom)
         {
@@ -28,17 +28,17 @@ namespace Jeux_mot_glissées
         public List<string> Motstrouvés
         {
             get { return motstrouvés; }
-            private set {; }
+            private set { motstrouvés = value; }
         }
         public int Scoretot
         {
             get { return scoretot; }
-            private set {; }
+            private set {scoretot=value; }
         }
         public List<int> Scoreplateau
         {
             get { return scoreplateau; }
-            private set {; }
+            private set {scoreplateau=value; }
 
         }
 
@@ -53,14 +53,40 @@ namespace Jeux_mot_glissées
 
         public string toString()
         {
-            return ($"nom : {this.nom} \nmotstrouvés : {this.motstrouvés} \nscoretot : {this.scoretot} \nscoreplateau : {this.scoreplateau}");
+            string mots = AfficherListe(motstrouvés);//on utilise une fonction spécifique pour afficher les listes
+            string scores = AfficherListe(scoreplateau);
+            return ($"Nom : {Nom}\nScore total : {Scoretot}\nMots trouvés ({Motstrouvés.Count}) : {mots}\nScores par plateau : {scores}");
 
+        }
+
+        private string AfficherListe<T>(List<T> liste)//private car utilisée que dans cette classe
+        {
+            if (liste == null || liste.Count == 0)
+            {
+                return "Aucun";
+            }
+            string resultat = ""; 
+
+            
+            for (int i = 0; i < liste.Count; i++)//on parcours la liste
+            {
+                resultat += liste[i].ToString(); // Concaténation de l'élément
+
+                
+                if (i < liste.Count - 1)
+                {
+                    resultat += ", "; // si ce n'est pas le dernier élément, on met virgule espace
+                }
+            }
+
+            return resultat;
         }
         public void Add_Score(int val)
         {
             if (val > 0)
             {
                 Scoretot += val; // Augmente le score du joueur qui vient de jouer
+                scoreplateau.Add(val); // Ajout à l'historique par plateau
             }
         }
 
