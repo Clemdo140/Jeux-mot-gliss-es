@@ -12,7 +12,7 @@ namespace Jeux_mot_glissées
     {
         private const string NOM_FICHIER_DICO = "MotsFrancais.txt";
         private List<List<string>> motsparlettre; //Liste des 26 lettres et chaque lettre contient une liste contenant tous les mots qui commencent par cette lettre
-        private string langue = "Français"; 
+        private string langue ; 
 
         public List<List<string>> Motsparlettre
         {
@@ -131,14 +131,45 @@ namespace Jeux_mot_glissées
 
             return description;
         }
-        public bool RechDichoRecursif(string mot)//utilise  RechercherMotRecursifAide
+        public bool RechDichoRecursif(string mot)//Recherche dicotomique du mot dans le dictiionnaire
         {
-            return false;
+            if (mot == null)
+            {
+                return false;
+            }
+
+            string motMaj = mot.ToUpper();
+            char premiereLettre = motMaj[0];
+
+            if (premiereLettre < 'A' || premiereLettre > 'Z') return false;//utilise l'index de la lettre 
+
+           
+            int index = premiereLettre - 'A'; // Détermine l'index de la liste cible 
+            List<string> listeCible = Motsparlettre[index];
+
+            // Lance la recherche dichotomique récursive sur la sous-liste triée.
+            return RechercherMotRecursifAide(listeCible, motMaj, 0, listeCible.Count - 1);//on se restreint à rechercher les mots qui commencent par la même lettre
         }
 
         private bool RechercherMotRecursifAide(List<string> liste, string mot, int debut, int fin)
         {
+            if (debut > fin) return false; // Condition d'arrêt : l'élément n'existe pas
 
+            int milieu = debut + (fin - debut) / 2;
+            int comparaison = string.Compare(mot, liste[milieu], StringComparison.OrdinalIgnoreCase);
+
+            if (comparaison == 0)
+            {
+                return true; // Mot trouvé
+            }
+            else if (comparaison < 0)
+            {
+                return RechercherMotRecursifAide(liste, mot, debut, milieu - 1); // Recherche à gauche
+            }
+            else
+            {
+                return RechercherMotRecursifAide(liste, mot, milieu + 1, fin); // Recherche à droite
+            }
         }
 
     }
