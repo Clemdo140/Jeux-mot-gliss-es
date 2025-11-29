@@ -16,6 +16,10 @@ namespace Jeux_mot_glissées
         Random r = new Random();//pour générer aléatoirement le plateau
         private Dictionary<char, (int max, int poids)> lettrescontraintes; // Dictionnaire interne pour stocker les contraintes de Lettres.txt.
 
+        public Dictionary<char, (int max, int poids)> Lettrescontraintes
+        {
+            get { return lettrescontraintes; }
+        }
         public Plateau()   //Initialise le plateau par génération automatique et aléatoire à partir de Lettres.txt.
         {
             Matrice = new char[nblignes, nbcolonnes];
@@ -126,6 +130,7 @@ namespace Jeux_mot_glissées
             catch (Exception ex)//si autre erreur
             {
                 Console.WriteLine($"Erreur lors du chargement du plateau : {ex.Message}");
+                GenererPlateaualeatoire();
             }
         }
         private Dictionary<char, (int max, int poids)> ChargerContraintesLettres()//permet d'extraire les règles de génération du plateau et de scoring à partir du fichier Lettres.txt et de les stocker dans une structure de données interne.
