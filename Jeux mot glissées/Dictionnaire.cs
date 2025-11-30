@@ -38,6 +38,7 @@ namespace Jeux_mot_glissées
 
             LireDictionnaire();
             Tri_QuickSort(); // tri du dictionnaire
+           
         }
 
         public void Tri_QuickSort()
@@ -45,7 +46,7 @@ namespace Jeux_mot_glissées
             foreach (var listeMots in Motsparlettre) // on applique le tri sur chaque sous-liste dans le tableau
             {
               
-                if (listeMots != null)//on vérifie qu"elle n'est pas nulle
+                if (listeMots != null && listeMots.Count > 1)//on vérifie qu"elle n'est pas nulle
                     QuickSort(listeMots, 0, listeMots.Count - 1);
             }
         }
@@ -61,8 +62,13 @@ namespace Jeux_mot_glissées
         }
         private int Partition(List<string> liste, int debut, int fin)//choisir un pivot et réarrange un segment de liste pour que le pivot se retrouve à sa place définitive.
         {
-     
-            string pivot = liste[fin];
+           
+            int milieu = debut + (fin - debut) / 2; // Calcule le milieu
+            string tempo = liste[milieu]; // Échange l'élément du milieu avec l'élément de fin
+            liste[milieu] = liste[fin];
+            liste[fin] = tempo;
+
+            string pivot = liste[fin];//on utilise liste[fin] comme pivot 
             int i = (debut - 1);//pour indiquer la position du prochain élément
 
             for (int j = debut; j < fin; j++)
@@ -96,7 +102,7 @@ namespace Jeux_mot_glissées
                         ligne = sr.ReadLine(); //lit la ligne
 
                       
-                        if (ligne!=null)
+                        if (!string.IsNullOrWhiteSpace(ligne))
                         {
                            
                             var mots = ligne.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)//on sépare la chaine de caractere en un tableau de mots, avec l'espace comme séparateur et StringSplitOptions.RemoveEmptyEntries permet d'enlever les chaines vides pour garder que les mots valides

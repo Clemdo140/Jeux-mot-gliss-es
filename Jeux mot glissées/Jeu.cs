@@ -19,6 +19,7 @@ namespace Jeux_mot_glissées
 
         private TimeSpan DureePartie;
         private TimeSpan TempsParTour;
+        private DateTime heureDebutPartie;
 
         public Dictionnaire Dico 
         { get; private set; }
@@ -81,7 +82,7 @@ namespace Jeux_mot_glissées
         public void DemarrerPartie(Plateau plateauInitial)
         {
             PlateauCourant = plateauInitial;
-            DateTime heureDebutPartie = DateTime.Now;
+            this.heureDebutPartie = DateTime.Now;
             int indexJoueur = 0;
 
             Console.WriteLine("\n*** DÉBUT DE LA PARTIE ! ***");
@@ -90,13 +91,16 @@ namespace Jeux_mot_glissées
             while ((DateTime.Now - heureDebutPartie) < DureePartie && PlateauCourant.Matrice.Cast<char>().Any(char.IsLetter))// La boucle continue tant que le temps n'est pas écoulé OU qu'il reste des lettres
             {
                 Joueur joueurActuel = Joueurs[indexJoueur % Joueurs.Count];
-                TimeSpan tempsRestantPartie = DureePartie - (DateTime.Now - heureDebutPartie);
+                TimeSpan tempsRestantPartie = DureePartie - (DateTime.Now - this.heureDebutPartie);
 
                 Console.WriteLine($"\n=========================================");
                 Console.WriteLine($"TOUR DE JOUER : {joueurActuel.Nom} | Reste : {tempsRestantPartie.TotalSeconds:F0} sec.");
                 Console.WriteLine("=========================================");
 
-                JouerTour(joueurActuel);
+                if (JouerTour(joueurActuel))
+                {
+                    break; // Sort immédiatement de la boucle while de la partie
+                }
 
                 // Alternance du joueur
                 indexJoueur++;
@@ -105,22 +109,69 @@ namespace Jeux_mot_glissées
 
             AfficherResultatsFinaux();
         }
+        private static string LireMotAvecTimeout(TimeSpan dureeMax)
+        {
+            DateTime debutLecture = DateTime.Now;
+            StringBuilder motSaisi = new StringBuilder();
 
-        private void JouerTour(Joueur joueur)
+            // Boucle tant qu'on a du temps et que le mot n'est pas "entré"
+            while ((DateTime.Now - debutLecture) < dureeMax)
+            {
+                // 1. Vérifier s'il y a une touche disponible (non-bloquant)
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey(true); // Lire la touche sans l'afficher immédiatement
+
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        // Entrée complète, afficher le mot tapé sur la console
+                        Console.WriteLine();
+                        return motSaisi.ToString();
+                    }
+                    else if (key.Key == ConsoleKey.Backspace && motSaisi.Length > 0)
+                    {
+                        // Gérer l'effacement
+                        motSaisi.Remove(motSaisi.Length - 1, 1);
+                        Console.Write("\b \b"); // Effacer un caractère de la console
+                    }
+                    else if (char.IsLetterOrDigit(key.KeyChar) || key.KeyChar == ' ')
+                    {
+                        // Ajouter le caractère au mot
+                        motSaisi.Append(key.KeyChar);
+                        Console.Write(key.KeyChar);
+
+                    }
+                }
+                Thread.Sleep(50); // Mettre une petite pause pour éviter de monopoliser le CPU
+            }
+
+            // Le temps est écoulé sans appui sur Entrée
+            Console.WriteLine(); // Aller à la ligne
+            return null;
+        }
+        private bool JouerTour(Joueur joueur)
         {
             DateTime heureDebutTour = DateTime.Now;
 
             while ((DateTime.Now - heureDebutTour) < TempsParTour)
             {
-                TimeSpan tempsRestantTour = TempsParTour - (DateTime.Now - heureDebutTour);
-                Console.Write($"Saisissez votre mot ou (passer) --- Reste {tempsRestantTour.TotalSeconds:F1}s : ");
+                TimeSpan tempsRestantTour = TempsParTour;
 
-                string motSaisi = Console.ReadLine();
+                TimeSpan tempsRestantGlobal = DureePartie - (DateTime.Now - this.heureDebutPartie); // Calcul du temps restant global 
+
+                Console.Write($"Saisissez votre mot ou (passer) --- Reste {tempsRestantGlobal.TotalSeconds:F1}s : ");
+
+                string motSaisi = LireMotAvecTimeout(tempsRestantTour);
+                if ((DateTime.Now - this.heureDebutPartie) >= DureePartie)
+                {
+                    Console.WriteLine("\nFIN DE PARTIE ! Le temps total est écoulé. Le mot saisi n'est pas pris en compte.");
+                    return true; // Arrêt immédiat du tour
+                }
 
                 if (string.IsNullOrWhiteSpace(motSaisi) || motSaisi.Equals("passer", StringComparison.OrdinalIgnoreCase))// si rien n'es rentrer ou que le joueur a dit qu'il voulait passer
                 {
                     Console.WriteLine("Passage au joueur suivant.");
-                    return;
+                    return false;
                 }
 
                
@@ -156,10 +207,11 @@ namespace Jeux_mot_glissées
 
                 Console.WriteLine("Plateau mis à jour :");
                 Console.WriteLine(PlateauCourant.toString());
-                return;
+                return false;
             }
 
             Console.WriteLine("Temps imparti pour le tour écoulé.");//si il n'as pas trouvé de mot valide avat la fin du while
+            return false;
         }
 
         private int CalculerScore(string mot)

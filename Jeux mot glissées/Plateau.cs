@@ -9,8 +9,8 @@ namespace Jeux_mot_glissées
 {
     internal class Plateau
     {
-        int nblignes = 8;
-        int nbcolonnes = 8;
+        int nblignes = 13;
+        int nbcolonnes = 13;
         string CHEMIN_LETTRES = "Lettres.txt";
         char[,] matrice;//le tableau en 2D actuel
         Random r = new Random();//pour générer aléatoirement le plateau
@@ -41,13 +41,20 @@ namespace Jeux_mot_glissées
 
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("  A B C D E F G H");//car matrice de 8 colonnes
-            sb.AppendLine("-----------------");
+            sb.AppendLine("  A B C D E F G H I J K L M" );//car matrice de n colonnes
+            sb.AppendLine("---------------------------");
 
             for (int i = 0; i < nblignes; i++)//ajoute le numéro de la ligne avant son contenu pour mieux se repérer
             {
                 sb.Append((i + 1).ToString());
-                sb.Append("|");
+                if (i < 9)
+                { sb.Append($"{"|",2}");
+                }
+                else
+                {
+                    sb.Append("|");
+                }
+                
                 for (int j = 0; j < nbcolonnes; j++)
                 {
                     
@@ -174,7 +181,7 @@ namespace Jeux_mot_glissées
         {
             {
                 
-                if (mot==null || mot.Length < 2) return null;
+                if (string.IsNullOrWhiteSpace(mot) || mot.Length < 2) return null;
 
                 string motUpper = mot.ToUpper();
                 char premiereLettre = motUpper[0];
