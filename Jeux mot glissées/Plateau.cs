@@ -120,12 +120,21 @@ namespace Jeux_mot_glissées
 
                 for (int i = 0; i < nblignes; i++)
                 {
-                    var lettres = lignes[i].Split(',');//chaque ligne est divisée pour séparerles lettres
+                    var lettres = lignes[i].Split(',').Select(s => s.Trim().ToUpper()).ToArray(); // Convertir toutes les cellules en majuscules/sans espaces une seule fois
 
                     for (int j = 0; j < nbcolonnes; j++)
                     {
-                        Matrice[i, j] = lettres[j].Trim().ToUpper()[0];//enlève les espaces et met chaque lettre en majuscule
-                                                                       
+                        string cellule = lettres[j];
+
+                        if (string.IsNullOrEmpty(cellule))
+                        {
+                            Matrice[i, j] = ' '; // Si la chaîne est vide, la case est un espace
+                        }
+                        else
+                        {
+                            // Prendre le premier caractère de la cellule nettoyée (qui est forcément une lettre, car on assume que c'est le format du plateau)
+                            Matrice[i, j] = cellule[0];
+                        }
                     }
                 }
                 Console.WriteLine($"Plateau chargé depuis {nomfile}");
@@ -185,28 +194,25 @@ namespace Jeux_mot_glissées
 
                 string motUpper = mot.ToUpper();
                 char premiereLettre = motUpper[0];
-                List<(int, int)> cheminTrouve = null;// Stockera les coordonnées si le mot est trouvé
+              
 
                 
                 int ligneBase = nblignes - 1; // La recherche commence systématiquement depuis la base de la matrice
 
                 for (int j = 0; j < nbcolonnes; j++)// 2. Boucle de départ, elle cherche la première lettre du mot donc le début du chemin
                 {
-                    if (Matrice[ligneBase, j] == premiereLettre) // Teste si la première lettre correspond
+                    
+                    if (char.IsLetter(Matrice[ligneBase, j]) && Matrice[ligneBase, j] == premiereLettre)// Vérifie que la case contient une lettre valide
                     {
-                        
-                        var chemin = new List<(int, int)> { (ligneBase, j) };// Initialisation du chemin pour cet essai de départ
+                        List<(int, int)> chemin = new List<(int, int)> { (ligneBase, j) };
 
-                        
-                        if (Recherche_Recursive(motUpper, 1, ligneBase, j, chemin))//Appel de la fonction d'aide récursive pour la suite du chemin
-                        {
-                            cheminTrouve = chemin;
-                            break; // Mot trouvé, on sort immédiatement de la boucle
-                        }
+                        if (Recherche_Recursive(motUpper, 1, ligneBase, j, chemin))
+                            return chemin;
                     }
                 }
-                return cheminTrouve;
+                return null;
             }
+               
         }
 
         private bool Recherche_Recursive(string mot, int indexMot, int ligCourante, int colCourante, List<(int, int)> chemin)//permet de vérifier si la suite du chemin est valide pour le mot rentré par le joueur sur le plateau
@@ -227,27 +233,30 @@ namespace Jeux_mot_glissées
                 int nLig = ligCourante + dLig[k];
                 int nCol = colCourante + dCol[k];
 
-                
+
                 if (nLig >= 0 && nLig < nblignes && nCol >= 0 && nCol < nbcolonnes)//vérifie si on est dans les limites du plateau
                 {
-                   
-                    if (!chemin.Contains((nLig, nCol))) //vérifie si la case est déjà dans le chemin 
-                    {
-                        
-                        if (Matrice[nLig, nCol] == lettreCible)//vérifie si la lettre correspond à la cible
-                        {
-                            chemin.Add((nLig, nCol)); // Ajout au chemin
 
-                            
-                            if (Recherche_Recursive(mot, indexMot + 1, nLig, nCol, chemin))// Appel récursif pour chercher la lettre suivante 
+                    if (!chemin.Contains((nLig, nCol)) && Matrice[nLig, nCol] == lettreCible) //vérifie si la case est déjà dans le chemin 
+                    {
+                        // 2. Vérifie si la case n'est pas déjà dans le chemin ET si la lettre correspond à la cible
+                        if (!chemin.Contains((nLig, nCol)) &&             // 1. La case n'est pas déjà visitée
+                        char.IsLetter(Matrice[nLig, nCol]) &&        // 2. La case contient une lettre
+                         Matrice[nLig, nCol] == lettreCible)          // 3. La lettre correspond à celle recherchée
+                        {
+                            chemin.Add((nLig, nCol));
+
+                            if (Recherche_Recursive(mot, indexMot + 1, nLig, nCol, chemin))
                             {
-                                return true; // Succès
+                                return true; // Succès: remonte la chaîne de retours
                             }
 
                             chemin.RemoveAt(chemin.Count - 1); // Échec, on annule le dernier mouvement
+
                         }
                     }
                 }
+               
             }
             return false; // Échec du chemin à partir de cette position
         }

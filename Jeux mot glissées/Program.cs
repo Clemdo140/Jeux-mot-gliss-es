@@ -77,6 +77,7 @@ namespace Jeux_mot_glissées
             Console.WriteLine("\nMerci d'avoir joué au jeu des MOTS GLISSÉS. Au revoir !");
             Console.ReadKey();
         }
+
         static void AfficherMenu()
         {
             Console.WriteLine("\n=================================");
@@ -87,6 +88,7 @@ namespace Jeux_mot_glissées
             Console.WriteLine("3. Sortir");
             Console.Write("Votre choix : ");
         }
+       
     }
 
     }
