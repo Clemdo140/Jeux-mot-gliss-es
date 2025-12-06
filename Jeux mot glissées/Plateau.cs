@@ -224,9 +224,15 @@ namespace Jeux_mot_glissées
 
             char lettreCible = mot[indexMot];
 
-            // Déplacements possibles: HAUT (-1,0,0), GAUCHE (0,-1,0), DROITE (0,0,+1)
-            int[] dLig = { -1, 0, 0 };
-            int[] dCol = { 0, -1, 1 };
+            // Déplacements possibles:
+            // HAUT:         -1, 0
+            // GAUCHE:        0, -1
+            // DROITE:        0, +1
+            // DIAGONALE HG: -1, -1
+            // DIAGONALE HD: -1, +1
+            // BAS :         +1, 0 
+            int[] dLig = { -1, 0, 0, -1, -1, 1 };
+            int[] dCol = { 0, -1, 1, -1, 1, 0 };
 
             for (int k = 0; k < dLig.Length; k++)
             {
