@@ -9,8 +9,9 @@ namespace Jeux_mot_glissées
 {
     internal class Plateau
     {
-        int nblignes = 13;
-        int nbcolonnes = 13;
+        private int nblignes ;
+        private int nbcolonnes;
+
         string CHEMIN_LETTRES = "Lettres.txt";
         char[,] matrice;//le tableau en 2D actuel
         Random r = new Random();//pour générer aléatoirement le plateau
@@ -20,14 +21,28 @@ namespace Jeux_mot_glissées
         {
             get { return lettrescontraintes; }
         }
-        public Plateau()   //Initialise le plateau par génération automatique et aléatoire à partir de Lettres.txt.
+        public int NbLignes { get { return nblignes; } }
+        public int NbColonnes { get { return nbcolonnes; } }
+        public Plateau() : this(8, 8) // Le constructeur par défaut appelle le nouveau constructeur avec les valeurs par défaut 8x8, comme dans le sujet du projet
         {
-            Matrice = new char[nblignes, nbcolonnes];
-            lettrescontraintes = ChargerContraintesLettres();
+            
+        }
+        public Plateau(int lignes, int colonnes)//constructeur principal paour générér aléatoirement
+        {
+           
+            this.nblignes = lignes;
+            this.nbcolonnes = colonnes;
+
+            Matrice = new char[nblignes, nbcolonnes];//on crée le plateau
+
+            lettrescontraintes = ChargerContraintesLettres();//on importe les contraintes
             GenererPlateaualeatoire();
         }
-        public Plateau(string nomfile) : this()  //Initialise par fichier
+        public Plateau(string nomfile) //initialise par fichier
         {
+            this.nblignes = 0;
+            this.nbcolonnes = 0;
+            lettrescontraintes = ChargerContraintesLettres();
             ToRead(nomfile);
         }
 
@@ -42,7 +57,11 @@ namespace Jeux_mot_glissées
         {
             StringBuilder sb = new StringBuilder();
             //sb.AppendLine("  A B C D E F G H I J K L M" );//car matrice de n colonnes
-            sb.AppendLine("----------------------------");
+            for (int i = 0; i < nbcolonnes; i++)//ajoute le numéro de la ligne avant son contenu pour mieux se repérer
+            {
+                sb.Append("--");
+            }
+            sb.AppendLine("--");
 
             for (int i = 0; i < nblignes; i++)//ajoute le numéro de la ligne avant son contenu pour mieux se repérer
             {
@@ -117,7 +136,14 @@ namespace Jeux_mot_glissées
             try//méthode try catch pour éviter une nouvelle fois les erreurs
             {
                 string[] lignes = File.ReadAllLines(nomfile);//lit le contenu du fichier et le place en mémoire sous forme de tableau
+                this.nblignes = lignes.Length;
+                if (nblignes > 0)
+                {
+                    this.nbcolonnes = lignes[0].Split(',').Length;
+                }
 
+                // Redimensionnement de la Matrice
+                Matrice = new char[nblignes, nbcolonnes];
                 for (int i = 0; i < nblignes; i++)
                 {
                     var lettres = lignes[i].Split(',').Select(s => s.Trim().ToUpper()).ToArray(); // Convertir toutes les cellules en majuscules/sans espaces une seule fois
@@ -141,11 +167,18 @@ namespace Jeux_mot_glissées
             }
             catch (FileNotFoundException f)//si on ne trouve pas le fichier
             {
+               
                 Console.WriteLine($"Erreur: Le fichier '{nomfile}' n'existe pas. {f.Message}");
+                this.nblignes = 8;//par défaut
+                this.nbcolonnes = 8;
+                GenererPlateaualeatoire();
             }
             catch (Exception ex)//si autre erreur
             {
                 Console.WriteLine($"Erreur lors du chargement du plateau : {ex.Message}");
+                GenererPlateaualeatoire();
+                this.nblignes = 8;//par défaut
+                this.nbcolonnes = 8;
                 GenererPlateaualeatoire();
             }
         }

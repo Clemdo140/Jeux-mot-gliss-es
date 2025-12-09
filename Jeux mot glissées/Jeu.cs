@@ -53,7 +53,9 @@ namespace Jeux_mot_glissées
                 // On vérifie que c'est bien un nombre et qu'il est supérieur ou égal à 2
                 if (!int.TryParse(entree, out nbJoueurs) || nbJoueurs < 2)
                 {
-                    Console.WriteLine("Erreur : Veuillez entrer un nombre entier valide supérieur ou égal à 2.");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("❌ : Veuillez entrer un nombre entier valide supérieur ou égal à 2.");
+                    Console.ResetColor();
                 }
             }
 
@@ -78,7 +80,7 @@ namespace Jeux_mot_glissées
                         continue; // On recommence la boucle while immédiatement
                     }
 
-                    // 2. Vérification des doublons (SANS LINQ)
+                    // 2. Vérification des doublons 
                     bool existeDeja = false;
 
                     // On parcourt la liste des joueurs déjà créés
@@ -112,7 +114,7 @@ namespace Jeux_mot_glissées
             Console.WriteLine("\nLa partie est bien configurée avec " + nbJoueurs + " joueurs :");
             foreach (Joueur joueur in Joueurs)
             {
-                Console.WriteLine("- " + joueur.Nom);
+                Console.WriteLine("-> " + joueur.Nom);
             }
         }
 
@@ -166,19 +168,19 @@ namespace Jeux_mot_glissées
                 Console.Write($"Temps max par tour (en secondes, défaut {TempsParTourDefaut.TotalSeconds} sec) : ");
                 string input = Console.ReadLine();
 
-                // Cas 1 : Saisie vide (Utilisation de la valeur par défaut)
-                if (string.IsNullOrWhiteSpace(input))
+               
+                if (string.IsNullOrWhiteSpace(input))//saisi vide
                 {
                     secTour = (int)TempsParTourDefaut.TotalSeconds;
                     saisieValideSec = true;
                 }
-                // Cas 2 : Tentative de lecture ET validation (nombre > 0)
-                else if (int.TryParse(input, out secTour) && secTour > 0)
+                
+                else if (int.TryParse(input, out secTour) && secTour > 0) //Tentative de lecture
                 {
                     saisieValideSec = true;
                 }
-                // Cas 3 : Saisie invalide (non-nombre OU nombre <= 0)
-                else
+                
+                else//saisi invalide
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("❌ Erreur: Veuillez entrer un nombre entier positif valide (doit être supérieur à 0).");
@@ -353,14 +355,18 @@ namespace Jeux_mot_glissées
 
         private void AfficherResultatsFinaux()
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("\n\n*** FIN DE LA PARTIE ! ***");
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("--- SCORES FINAUX ---");
+            Console.ResetColor();   
 
             var classement = Joueurs.OrderByDescending(j => j.Scoretot).ToList();//variable qui stock le classement des joueurs en fonction de leurs classements
 
             foreach (var joueur in classement)
             {
                 Console.WriteLine(joueur.toString());//donne le recap de la performance et les infos du joueur
+                Console.WriteLine();
             }
 
             if (classement.Count > 0)//on vérifie qu'il y a au moins 1 joueur dans le classement avant de l'afficher
