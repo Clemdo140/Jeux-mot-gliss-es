@@ -15,8 +15,14 @@ namespace Jeux_mot_glissées
         {
          
             Console.OutputEncoding = Encoding.UTF8; // Pour afficher les caractères spéciaux (le 🏆 dans la classe jeu)
-            Console.Title = "Jeu des MOTS GLISSÉS - ESILV";//renommer la console
-
+            Console.Title = "Jeu des MOTS GLISSÉS ";//renommer la console
+            Console.WriteLine("\n=============================");
+            Console.Write("=== ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("JEU DES MOTS GLISSÉS");
+            Console.ResetColor();
+            Console.WriteLine(" ===");
+            Console.WriteLine("=============================");
 
             Jeu jeu = new Jeu(); //Initialisation des composants centraux du jeu (Jeu, Dictionnaire, Joueurs, Temps)
             jeu.CreerJoueurs();
