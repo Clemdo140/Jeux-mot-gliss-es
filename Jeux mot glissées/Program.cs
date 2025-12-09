@@ -12,8 +12,10 @@ namespace Jeux_mot_glissées
     {
         static void Main(string[] args)
         {
+         
             Console.OutputEncoding = Encoding.UTF8; // Pour afficher les caractères spéciaux (le 🏆 dans la classe jeu)
             Console.Title = "Jeu des MOTS GLISSÉS - ESILV";//renommer la console
+           
 
            
             Jeu jeu = new Jeu(); //Initialisation des composants centraux du jeu (Jeu, Dictionnaire, Joueurs, Temps)
@@ -30,7 +32,9 @@ namespace Jeux_mot_glissées
                 // Saisie sécurisée : on attend une option valide (1, 2, ou 3)
                 if (!int.TryParse(Console.ReadLine(), out int choix) || choix < 1 || choix > 3)
                 {
-                    Console.WriteLine("❌ Choix invalide. Veuillez entrer 1, 2 ou 3.");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("❌ Choix invalide :  Veuillez entrer 1, 2 ou 3.");
+                    Console.ResetColor();
                     continue; // Recommence la boucle du menu
                 }
 
@@ -80,12 +84,25 @@ namespace Jeux_mot_glissées
 
         static void AfficherMenu()
         {
-            Console.WriteLine("\n=================================");
-            Console.WriteLine("=== MENU DES MOTS GLISSÉS ===");
-            Console.WriteLine("=================================");
-            Console.WriteLine("1. Jouer à partir d'un fichier");
-            Console.WriteLine("2. Jouer à partir d'un plateau généré aléatoirement");
-            Console.WriteLine("3. Sortir");
+            Console.WriteLine("\n==============================");
+            Console.Write("=== ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("MENU DES MOTS GLISSÉS");
+            Console.ResetColor();
+            Console.WriteLine(" ===");
+            Console.WriteLine("==============================");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("1. ");
+            Console.ResetColor();
+            Console.WriteLine("Jouer à partir d'un fichier");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("2. ");
+            Console.ResetColor();
+            Console.WriteLine("Jouer à partir d'un plateau généré aléatoirement");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("3. ");
+            Console.ResetColor();
+            Console.WriteLine("Sortir");
             Console.Write("Votre choix : ");
         }
        

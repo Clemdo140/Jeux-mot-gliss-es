@@ -24,7 +24,7 @@ namespace Jeux_mot_glissées
         public Dictionnaire Dico 
         { get; private set; }
         public Plateau PlateauCourant
-        { get; private set; }
+        { get; set; }
         public List<Joueur> Joueurs 
         { get; private set; }
         public Jeu()
@@ -35,49 +35,161 @@ namespace Jeux_mot_glissées
             DureePartie = DureePartieDefaut;
             TempsParTour = TempsParTourDefaut;
         }
+        
         public void CreerJoueurs()
         {
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("\n--- Création des joueurs ---");
-            string nomJ1;
-            string nomJ2;
+            Console.ResetColor();
 
-           
-            do//on crée le joueur 1
+            int nbJoueurs = 0;
+
+            // On demande combien de joueurs vont participer tant que le nombre de joueurs rentré est inférieur à 2
+            while (nbJoueurs < 2)
             {
-                Console.Write("Entrez le nom du Joueur 1 : ");
-                nomJ1 = Console.ReadLine();
-            } while (nomJ1 == null);
+                Console.Write("Combien de joueurs participent (minimum 2) ? ");
+                string entree = Console.ReadLine();
 
-            do//on crée le joueur 2
+                // On vérifie que c'est bien un nombre et qu'il est supérieur ou égal à 2
+                if (!int.TryParse(entree, out nbJoueurs) || nbJoueurs < 2)
+                {
+                    Console.WriteLine("Erreur : Veuillez entrer un nombre entier valide supérieur ou égal à 2.");
+                }
+            }
+
+            // Boucle qui sert à créer chaque joueur
+            for (int i = 0; i < nbJoueurs; i++)
             {
-                Console.Write("Entrez le nom du Joueur 2 : ");
-                nomJ2 = Console.ReadLine();
-            } while (nomJ2==null || nomJ1.Equals(nomJ2, StringComparison.OrdinalIgnoreCase));// on vérifie que ce soit pas les mêmes
+                string nom = null;
+                bool nomValide = false;
 
-            Joueurs.Add(new Joueur(nomJ1));
-            Joueurs.Add(new Joueur(nomJ2));
-            Console.WriteLine($"Joueurs actuels : {nomJ1} et {nomJ2}");
+                while (nomValide == false)
+                {
+                    // Note : J'ai mis des parenthèses autour de (i + 1) pour faire l'addition correctement
+                    Console.Write("Entrez le nom du Joueur " + (i + 1) + " : ");
+                    nom = Console.ReadLine();
+
+                    // 1. Vérification que le nom ne soit pas vide
+                    if (string.IsNullOrWhiteSpace(nom))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("❌ Le nom ne peut pas être vide");
+                        Console.ResetColor();
+                        continue; // On recommence la boucle while immédiatement
+                    }
+
+                    // 2. Vérification des doublons (SANS LINQ)
+                    bool existeDeja = false;
+
+                    // On parcourt la liste des joueurs déjà créés
+                    foreach (Joueur j in Joueurs)
+                    {
+                        // Si le nom existe déjà (en ignorant les majuscules/minuscules)
+                        if (j.Nom.ToUpper() == nom.ToUpper())
+                        {
+                            existeDeja = true;
+                            break; // On arrête de chercher, on a trouvé un doublon
+                        }
+                    }
+
+                    if (existeDeja)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("❌ Ce nom est déjà pris. Veuillez en choisir un autre.");
+                        Console.ResetColor();
+                        continue; // On recommence la boucle while immédiatement
+                    }
+
+                    // Si on arrive ici, le nom est valide
+                    nomValide = true;
+                }
+
+                // Ajout du joueur à la liste
+                Joueurs.Add(new Joueur(nom));
+            }
+
+            // Affichage des joueurs créés via une boucle foreach
+            Console.WriteLine("\nLa partie est bien configurée avec " + nbJoueurs + " joueurs :");
+            foreach (Joueur joueur in Joueurs)
+            {
+                Console.WriteLine("- " + joueur.Nom);
+            }
         }
+
 
         public void ConfigurerTemps()
         {
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("\n--- Configuration du Temps (Laisser vide pour utiliser la valeur par défaut) ---");
+            Console.ResetColor();
 
-            // Configurer la durée totale de la partie
-            Console.Write($"Durée totale (en minutes, défaut {DureePartieDefaut.TotalMinutes} min) : ");//on précise la valeur par défaut qu'on avait prévu
-            if (double.TryParse(Console.ReadLine(), out double minPartie) && minPartie > 0)// on vérifie que le nombres de minutes est une valeure cohérente
+            // --- Configuration de la Durée Totale de la Partie (Minutes) ---
+
+            double minPartie = 0;
+            bool saisieValideMin = false;
+
+            while (!saisieValideMin)
             {
-                DureePartie = TimeSpan.FromMinutes(minPartie);
+                Console.Write($"Durée totale (en minutes, défaut {DureePartieDefaut.TotalMinutes} min) : ");
+                string input = Console.ReadLine();
+
+                
+                if (string.IsNullOrWhiteSpace(input))// si la saisie est vide
+                {
+                    minPartie = DureePartieDefaut.TotalMinutes;
+                    saisieValideMin = true;
+                }
+               
+                else if (double.TryParse(input, out minPartie) && minPartie > 0) //on essaye de lire et on test si >0
+                {
+                    saisieValideMin = true;
+                }
+                
+                else// saisi invalide
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("❌ Erreur: Veuillez entrer un nombre positif valide (doit être supérieur à 0).");
+                    Console.ResetColor();
+                }
             }
 
-            // Configurer le temps par tour
-            Console.Write($"Temps max par tour (en secondes, défaut {TempsParTourDefaut.TotalSeconds} sec) : ");
-            if (int.TryParse(Console.ReadLine(), out int secTour) && secTour > 0)
+            // Affectation directe, car minPartie est GARANTI d'être > 0 ici.
+            DureePartie = TimeSpan.FromMinutes(minPartie);
+
+            // --- Configuration du Temps par Tour (Secondes) ---
+
+            int secTour = 0;
+            bool saisieValideSec = false;
+
+            while (!saisieValideSec)
             {
-                TempsParTour = TimeSpan.FromSeconds(secTour);
+                Console.Write($"Temps max par tour (en secondes, défaut {TempsParTourDefaut.TotalSeconds} sec) : ");
+                string input = Console.ReadLine();
+
+                // Cas 1 : Saisie vide (Utilisation de la valeur par défaut)
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    secTour = (int)TempsParTourDefaut.TotalSeconds;
+                    saisieValideSec = true;
+                }
+                // Cas 2 : Tentative de lecture ET validation (nombre > 0)
+                else if (int.TryParse(input, out secTour) && secTour > 0)
+                {
+                    saisieValideSec = true;
+                }
+                // Cas 3 : Saisie invalide (non-nombre OU nombre <= 0)
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("❌ Erreur: Veuillez entrer un nombre entier positif valide (doit être supérieur à 0).");
+                    Console.ResetColor();
+                }
             }
 
-            Console.WriteLine($"Voici les règles de temps : {DureePartie.TotalMinutes} min | Tour max : {TempsParTour.TotalSeconds} sec.");
+            // Affectation directe, car secTour est GARANTI d'être > 0 ici.
+            TempsParTour = TimeSpan.FromSeconds(secTour);
+
+            Console.WriteLine($"\nVoici les règles de temps : {DureePartie.TotalMinutes} min | Tour max : {TempsParTour.TotalSeconds} sec.");
         }
         public void DemarrerPartie(Plateau plateauInitial)
         {
@@ -85,7 +197,10 @@ namespace Jeux_mot_glissées
             this.heureDebutPartie = DateTime.Now;
             int indexJoueur = 0;
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\n*** DÉBUT DE LA PARTIE ! ***");
+            Console.ResetColor();
+            Console.WriteLine("\n");
             Console.WriteLine(PlateauCourant.toString());
 
             while ((DateTime.Now - heureDebutPartie) < DureePartie && PlateauCourant.Matrice.Cast<char>().Any(char.IsLetter))// La boucle continue tant que le temps n'est pas écoulé OU qu'il reste des lettres
@@ -93,9 +208,11 @@ namespace Jeux_mot_glissées
                 Joueur joueurActuel = Joueurs[indexJoueur % Joueurs.Count];
                 TimeSpan tempsRestantPartie = DureePartie - (DateTime.Now - this.heureDebutPartie);
 
-                Console.WriteLine($"\n=========================================");
-                Console.WriteLine($"TOUR DE JOUER : {joueurActuel.Nom} | Reste : {tempsRestantPartie.TotalSeconds:F0} sec.");
-                Console.WriteLine("=========================================");
+                Console.WriteLine($"\n===========================================================");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"TOUR DU JOUEUR : {joueurActuel.Nom} | Reste : {tempsRestantPartie.Minutes:D2} min et {tempsRestantPartie.Seconds:D2} sec : ");
+                Console.ResetColor();
+                Console.WriteLine("===========================================================");
 
                 if (JouerTour(joueurActuel))
                 {
@@ -158,8 +275,9 @@ namespace Jeux_mot_glissées
                 TimeSpan tempsRestantTour = TempsParTour;
 
                 TimeSpan tempsRestantGlobal = DureePartie - (DateTime.Now - this.heureDebutPartie); // Calcul du temps restant global 
-
-                Console.Write($"Saisissez votre mot ou (passer) --- Reste {tempsRestantGlobal.TotalSeconds:F1}s : ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write($"Saisissez votre mot ou (passer) --- Reste {tempsRestantTour.Minutes:D2}min et {tempsRestantTour.Seconds:D2}sec : ");
+                Console.ResetColor();
 
                 string motSaisi = LireMotAvecTimeout(tempsRestantTour);
                 if ((DateTime.Now - this.heureDebutPartie) >= DureePartie)

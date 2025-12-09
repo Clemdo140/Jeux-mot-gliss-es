@@ -41,8 +41,8 @@ namespace Jeux_mot_glissées
 
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("  A B C D E F G H I J K L M" );//car matrice de n colonnes
-            sb.AppendLine("---------------------------");
+            //sb.AppendLine("  A B C D E F G H I J K L M" );//car matrice de n colonnes
+            sb.AppendLine("----------------------------");
 
             for (int i = 0; i < nblignes; i++)//ajoute le numéro de la ligne avant son contenu pour mieux se repérer
             {
