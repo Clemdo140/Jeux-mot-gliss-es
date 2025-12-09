@@ -340,12 +340,12 @@ namespace Jeux_mot_glissées
 
             int score = mot.Length * mot.Length; // Longueur du mot au carré pour calculer le poids du mot
 
-            foreach (char c in mot.ToUpper())// Accès aux contraintes du plateau pour obtenir les poids
+            foreach (char c in mot.ToUpper())// Accès aux contraintes du plateau pour obtenir les poids de chaque lettre
             {
 
                 if (PlateauCourant.Lettrescontraintes.TryGetValue(c, out var contraintes))//on essaye de récupérer les contraintes pour chaque lettre dans Lettres.txt
                 {
-                    score += contraintes.poids;
+                    score += contraintes.poids;//on additionne le poids de chaque lettre au poids
                 }
             }
 
