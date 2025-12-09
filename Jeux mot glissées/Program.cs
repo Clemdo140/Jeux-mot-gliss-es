@@ -58,13 +58,13 @@ namespace Jeux_mot_glissées
                         Console.Write("\nEntrez le nom du fichier du plateau (ex: Test1.csv) : ");
                         string nomFichier = Console.ReadLine()?.Trim();
 
-                        if (string.IsNullOrWhiteSpace(nomFichier))
-                        {
-                            Console.WriteLine("Nom de fichier vide. Retour au menu.");
-                            continue;
-                        }
+                       // if (string.IsNullOrWhiteSpace(nomFichier))
+                       // {
+                        //    Console.WriteLine("Nom de fichier vide. Retour au menu.");
+                         //   continue;
+                        //}
 
-                       
+
                         plateauACharger = new Plateau(nomFichier); // Le constructeur Plateau gère l'appel à ToRead et le try/catch de FileNotFound
 
                         

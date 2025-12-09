@@ -167,18 +167,24 @@ namespace Jeux_mot_glissées
             }
             catch (FileNotFoundException f)//si on ne trouve pas le fichier
             {
-               
-                Console.WriteLine($"Erreur: Le fichier '{nomfile}' n'existe pas. {f.Message}");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"❌ : Le fichier '{nomfile}' n'existe pas. {f.Message}");
+                Console.ResetColor();
+                Console.WriteLine($"Génération d'un plateau aléatoire");
                 this.nblignes = 8;//par défaut
                 this.nbcolonnes = 8;
+                Matrice = new char[nblignes, nbcolonnes];
                 GenererPlateaualeatoire();
             }
             catch (Exception ex)//si autre erreur
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Erreur lors du chargement du plateau : {ex.Message}");
-                GenererPlateaualeatoire();
+                Console.ResetColor();
+                Console.WriteLine($"Génération d'un plateau aléatoire");
                 this.nblignes = 8;//par défaut
                 this.nbcolonnes = 8;
+                Matrice = new char[nblignes, nbcolonnes];
                 GenererPlateaualeatoire();
             }
         }
