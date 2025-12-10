@@ -212,7 +212,7 @@ namespace Jeux_mot_glissées
 
                 Console.WriteLine($"\n===========================================================");
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"TOUR DU JOUEUR : {joueurActuel.Nom} | Reste : {tempsRestantPartie.Minutes:D2} min et {tempsRestantPartie.Seconds:D2} sec : ");
+                Console.WriteLine($"TOUR DU JOUEUR : {joueurActuel.Nom} ({joueurActuel.Scoretot} points) | Reste : {tempsRestantPartie.Minutes:D2} min et {tempsRestantPartie.Seconds:D2} sec : ");
                 Console.ResetColor();
                 Console.WriteLine("===========================================================");
 
