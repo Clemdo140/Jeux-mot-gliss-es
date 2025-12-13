@@ -106,28 +106,49 @@ namespace Jeux_mot_glissées
                 }
             }
         }
+       
+
         public void GenererPlateaualeatoire()//génère le plateau aléatoirement
         {
+            
             List<char> lettresPool = new List<char>();
+            int totalCases = nblignes * nbcolonnes;
 
             foreach (var kvp in lettrescontraintes)//parcours la règle de chaque lettre
             {
+                
                 for (int i = 0; i < kvp.Value.max; i++)//la pondération, ajoute la lettre en son nombre maximum de fois
                 {
                     lettresPool.Add(kvp.Key);
                 }
             }
 
-            if (lettresPool.Count == 0) { //si le nombre d'élément de la liste est nul, erreur
-            return;
+            if (lettresPool.Count == 0)
+            {
+                return;
             }
+
 
             for (int i = 0; i < nblignes; i++)
             {
                 for (int j = 0; j < nbcolonnes; j++)
                 {
-                    int index = r.Next(lettresPool.Count); //choix d'un index aléatoire
-                    Matrice[i, j] = lettresPool[index];  //remplissage aléatoire de la matrice
+                    if (lettresPool.Count > 0)
+                    {
+                       
+                        int index = r.Next(lettresPool.Count);//choix d'un index aléatoire dans le pool restant
+
+                      
+                        Matrice[i, j] = lettresPool[index];  // Remplissage de la matrice avec la lettre choisie
+
+                       
+                        lettresPool.RemoveAt(index); //Retirer la lettre du pool après utilisation
+                    }
+                    else
+                    {
+                        
+                        Matrice[i, j] = ' ';// S'il n'y a plus de lettres disponibles dans le pool, remplir avec un espace vide 
+                    }
                 }
             }
         }

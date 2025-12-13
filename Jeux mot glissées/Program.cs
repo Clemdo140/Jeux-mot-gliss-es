@@ -49,7 +49,7 @@ namespace Jeux_mot_glissées
 
                 Plateau plateauACharger = null;
                 const int DIMENSION_MIN = 5;
-                const int DIMENSION_MAX = 26;
+                const int DIMENSION_MAX = 11;// car max 11*11 occurences max de lettres
                 switch (choix)
                 {
                     case 1:   // Option 1 : Jouer à partir d'un fichier
