@@ -6,7 +6,7 @@ namespace Motsglissés.Tests
     {
         private Dictionnaire dico;
         [TestInitialize]
-        public void Setup() 
+        public void Setup() //evite de recréer un dico a chaque fois
         {
          
             dico = new Dictionnaire();
@@ -26,6 +26,24 @@ namespace Motsglissés.Tests
                 Assert.IsTrue(comparaison <= 0,
                     $"La liste n'est pas triée correctement. Erreur de séquence : '{motsC[i]}' vient après '{motsC[i + 1]}'");
             }
+        }
+        [TestMethod]
+        public void Test2_RechDichoRecursif_Trouve_Mots_Valides()
+        {
+            // on définit des mots à tester
+            string motValide1 = "JEU";
+            string motValide2 = "DICTIONNAIRE";
+            string motInvalide = "XYZ_JAMAISTROUVE_XYZ";
+
+            // Test 2.1 : Trouve un mot valide
+            Assert.IsTrue(dico.RechDichoRecursif(motValide1), $"Devrait trouver le mot '{motValide1}' dans le dictionnaire.");
+            Assert.IsTrue(dico.RechDichoRecursif(motValide2), $"Devrait trouver le mot '{motValide2}' dans le dictionnaire.");
+
+            // Test 2.2 : Ne trouve pas un mot invalide
+            Assert.IsFalse(dico.RechDichoRecursif(motInvalide), $"Ne devrait PAS trouver le mot '{motInvalide}'.");
+
+            // Test 2.3 : Teste la recherche avec une casse différente
+            Assert.IsTrue(dico.RechDichoRecursif("jeu"), "Devrait trouver le mot même s'il est en minuscules.");
         }
     }
 }

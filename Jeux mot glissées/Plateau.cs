@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Jeux_mot_glissées
 {
-    internal class Plateau
+    public class Plateau
     {
         private int nblignes;
         private int nbcolonnes;
@@ -49,7 +49,7 @@ namespace Jeux_mot_glissées
         public char[,] Matrice
         {
             get { return matrice; }
-            private set { matrice = value; }
+             set { matrice = value; }
         }
 
         public string toString()//affichage du plateau

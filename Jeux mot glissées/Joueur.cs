@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Jeux_mot_glissées
 {
-    internal class Joueur
+    public class Joueur
     {
         private string nom;
         private List<string> motstrouvés;
