@@ -33,7 +33,7 @@ namespace Motsglissés.Tests
             // on définit des mots à tester
             string motValide1 = "JEU";
             string motValide2 = "DICTIONNAIRE";
-            string motInvalide = "XYZ_JAMAISTROUVE_XYZ";
+            string motInvalide = "PASTROUVE";
 
             // Test 2.1 : Trouve un mot valide
             Assert.IsTrue(dico.RechDichoRecursif(motValide1), $"Devrait trouver le mot '{motValide1}' dans le dictionnaire.");
