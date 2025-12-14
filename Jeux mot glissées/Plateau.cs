@@ -9,7 +9,7 @@ namespace Jeux_mot_glissées
 {
     internal class Plateau
     {
-        private int nblignes ;
+        private int nblignes;
         private int nbcolonnes;
 
         string CHEMIN_LETTRES = "Lettres.txt";
@@ -25,11 +25,11 @@ namespace Jeux_mot_glissées
         public int NbColonnes { get { return nbcolonnes; } }
         public Plateau() : this(8, 8) // Le constructeur par défaut appelle le nouveau constructeur avec les valeurs par défaut 8x8, comme dans le sujet du projet
         {
-            
+
         }
         public Plateau(int lignes, int colonnes)//constructeur principal paour générér aléatoirement
         {
-           
+
             this.nblignes = lignes;
             this.nbcolonnes = colonnes;
 
@@ -51,15 +51,15 @@ namespace Jeux_mot_glissées
             get { return matrice; }
             private set { matrice = value; }
         }
-   
+
         public string toString()//affichage du plateau
 
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();//pour construire un affichage efficace
             //sb.AppendLine("  A B C D E F G H I J K L M" );//car matrice de n colonnes
             for (int i = 0; i < nbcolonnes; i++)//ajoute le numéro de la ligne avant son contenu pour mieux se repérer
             {
-                sb.Append("--");
+                sb.Append("--");//.Append rajoute à l'affichage
             }
             sb.AppendLine("--");
 
@@ -67,16 +67,17 @@ namespace Jeux_mot_glissées
             {
                 sb.Append((i + 1).ToString());
                 if (i < 9)
-                { sb.Append($"{"|",2}");
+                {
+                    sb.Append($"{"|",2}");
                 }
                 else
                 {
                     sb.Append("|");
                 }
-                
+
                 for (int j = 0; j < nbcolonnes; j++)
                 {
-                    
+
                     sb.Append(char.IsLetter(Matrice[i, j]) ? Matrice[i, j] + " " : "  ");// Affiche la lettre suivie d'un espace, ou deux espaces si la case est vide, Condotion ? sivrai : sifaux
                 }
                 sb.AppendLine();
@@ -106,24 +107,24 @@ namespace Jeux_mot_glissées
                 }
             }
         }
-       
+
 
         public void GenererPlateaualeatoire()//génère le plateau aléatoirement
         {
-            
+
             List<char> lettresPool = new List<char>();
             int totalCases = nblignes * nbcolonnes;
 
             foreach (var kvp in lettrescontraintes)//parcours la règle de chaque lettre
             {
-                
+
                 for (int i = 0; i < kvp.Value.max; i++)//la pondération, ajoute la lettre en son nombre maximum de fois
                 {
                     lettresPool.Add(kvp.Key);
                 }
             }
 
-            if (lettresPool.Count == 0)
+            if (lettresPool.Count == 0)//gerer l'erreur
             {
                 return;
             }
@@ -135,18 +136,18 @@ namespace Jeux_mot_glissées
                 {
                     if (lettresPool.Count > 0)
                     {
-                       
+
                         int index = r.Next(lettresPool.Count);//choix d'un index aléatoire dans le pool restant
 
-                      
+
                         Matrice[i, j] = lettresPool[index];  // Remplissage de la matrice avec la lettre choisie
 
-                       
+
                         lettresPool.RemoveAt(index); //Retirer la lettre du pool après utilisation
                     }
                     else
                     {
-                        
+
                         Matrice[i, j] = ' ';// S'il n'y a plus de lettres disponibles dans le pool, remplir avec un espace vide 
                     }
                 }
@@ -179,7 +180,7 @@ namespace Jeux_mot_glissées
                         }
                         else
                         {
-                            // Prendre le premier caractère de la cellule nettoyée (qui est forcément une lettre, car on assume que c'est le format du plateau)
+                            // Prendre le premier caractère de la cellule nettoyée
                             Matrice[i, j] = cellule[0];
                         }
                     }
@@ -214,23 +215,23 @@ namespace Jeux_mot_glissées
             var contraintes = new Dictionary<char, (int max, int poids)>();//nouveau dictionnaire sera retourné
             try//méthode try catch encore un efois pour éviter les erreurs
             {
-              
-             
+
+
                 string[] lignes = File.ReadAllLines(CHEMIN_LETTRES);//lire toute les données du fichier
 
                 foreach (var ligne in lignes)//parcourt chaque ligne
                 {
-                    
-                    if (ligne == null || ligne.Length==0 ) continue;// Ignorer les lignes vides 
 
-                   
+                    if (ligne == null || ligne.Length == 0) continue;// Ignorer les lignes vides 
+
+
                     string[] parties = ligne.Split(','); // Séparation des données par virgule (format CSV)
 
                     if (parties.Length >= 3 && char.TryParse(parties[0].Trim().ToUpper(), out char lettre))//>=3 car lettre, poids, max et essaye de convertir la première partie de la ligne en une lettre majuscule en enlevant les espaces
                     {
                         if (int.TryParse(parties[1].Trim(), out int max) && int.TryParse(parties[2].Trim(), out int poids))
                         {
-                            
+
                             contraintes.Add(lettre, (max, poids));//on ajoute les contrainte de la lettre au dictionnaire
                         }
                     }
@@ -246,22 +247,23 @@ namespace Jeux_mot_glissées
             }
             return contraintes;
         }
-        public object Recherche_Mot(string mot)//etablir les conditions initiales puis rechercher le mot rentré par le joueur
+        public object Recherche_Mot(string mot)//etablir les conditions initiales puis rechercher le mot rentré par le joueur, cherhce la premiere lettre du mot depuis la base
         {
             {
-                
-                if (string.IsNullOrWhiteSpace(mot) || mot.Length < 2) return null;
+
+                if (string.IsNullOrWhiteSpace(mot) || mot.Length < 2) 
+                    return null;
 
                 string motUpper = mot.ToUpper();
                 char premiereLettre = motUpper[0];
-              
 
-                
+
+
                 int ligneBase = nblignes - 1; // La recherche commence systématiquement depuis la base de la matrice
 
                 for (int j = 0; j < nbcolonnes; j++)// 2. Boucle de départ, elle cherche la première lettre du mot donc le début du chemin
                 {
-                    
+
                     if (char.IsLetter(Matrice[ligneBase, j]) && Matrice[ligneBase, j] == premiereLettre)// Vérifie que la case contient une lettre valide
                     {
                         List<(int, int)> chemin = new List<(int, int)> { (ligneBase, j) };
@@ -272,7 +274,7 @@ namespace Jeux_mot_glissées
                 }
                 return null;
             }
-               
+
         }
 
         private bool Recherche_Recursive(string mot, int indexMot, int ligCourante, int colCourante, List<(int, int)> chemin)//permet de vérifier si la suite du chemin est valide pour le mot rentré par le joueur sur le plateau
@@ -303,12 +305,12 @@ namespace Jeux_mot_glissées
                 if (nLig >= 0 && nLig < nblignes && nCol >= 0 && nCol < nbcolonnes)//vérifie si on est dans les limites du plateau
                 {
 
-                    if (!chemin.Contains((nLig, nCol)) && Matrice[nLig, nCol] == lettreCible) //vérifie si la case est déjà dans le chemin 
+                    if (!chemin.Contains((nLig, nCol)) && Matrice[nLig, nCol] == lettreCible) //vérifie si la case est déjà dans le chemin et si la lettre correspond à la cible
                     {
-                        // 2. Vérifie si la case n'est pas déjà dans le chemin ET si la lettre correspond à la cible
-                        if (!chemin.Contains((nLig, nCol)) &&             // 1. La case n'est pas déjà visitée
-                        char.IsLetter(Matrice[nLig, nCol]) &&        // 2. La case contient une lettre
-                         Matrice[nLig, nCol] == lettreCible)          // 3. La lettre correspond à celle recherchée
+                      
+                        if (!chemin.Contains((nLig, nCol)) &&             // La case n'est pas déjà visitée
+                        char.IsLetter(Matrice[nLig, nCol]) &&        // La case contient une lettre
+                         Matrice[nLig, nCol] == lettreCible)          // La lettre correspond à celle recherchée
                         {
                             chemin.Add((nLig, nCol));
 
@@ -322,15 +324,16 @@ namespace Jeux_mot_glissées
                         }
                     }
                 }
-               
+
             }
             return false; // Échec du chemin à partir de cette position
         }
         public void Maj_Plateau(List<(int ligne, int colonne)> cheminMot)//permet de vider les cases du mot trouvé et de faire glisser les lettres des colonnes en question vers le bas
         {
-            if (cheminMot == null || cheminMot.Count == 0) return;
+            if (cheminMot == null || cheminMot.Count == 0)
+                return;
 
-           
+
             foreach (var coord in cheminMot) //Vide les cases du mot trouvé
             {
                 Matrice[coord.ligne, coord.colonne] = ' '; // Marque la case comme vide
@@ -338,13 +341,13 @@ namespace Jeux_mot_glissées
 
             for (int j = 0; j < nbcolonnes; j++) // glissement colonne par colonne
             {
-               
-                for (int i = nblignes - 1; i >= 0; i--) // Parcourt la colonne du bas vers le haut
+
+                for (int i = nblignes - 1; i >= 0; i--) // Parcourt la ligne du bas vers le haut
                 {
-                    
+
                     if (Matrice[i, j] == ' ')// Si la case actuelle est vide
                     {
-                       
+
                         for (int k = i - 1; k >= 0; k--) //Chercher la première lettre non vide au-dessus (plus petit 'k')
                         {
                             if (Matrice[k, j] != ' ')
@@ -358,5 +361,7 @@ namespace Jeux_mot_glissées
                 }
             }
         }
+       
+
     }
 }

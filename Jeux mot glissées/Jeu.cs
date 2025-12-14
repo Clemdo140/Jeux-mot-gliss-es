@@ -20,21 +20,24 @@ namespace Jeux_mot_glissées
         private TimeSpan DureePartie;
         private TimeSpan TempsParTour;
         private DateTime heureDebutPartie;
+        public Jeu()
+        {
 
+            Dico = new Dictionnaire();
+            Console.WriteLine(Dico.toString());//test pour savoir si tous les mots sont chargés
+            Joueurs = new List<Joueur>();
+            DureePartie = DureePartieDefaut;
+            TempsParTour = TempsParTourDefaut;
+        }
+       
         public Dictionnaire Dico 
         { get; private set; }
         public Plateau PlateauCourant
         { get; set; }
         public List<Joueur> Joueurs 
         { get; private set; }
-        public Jeu()
-        {
-            
-            Dico = new Dictionnaire();
-            Joueurs = new List<Joueur>();
-            DureePartie = DureePartieDefaut;
-            TempsParTour = TempsParTourDefaut;
-        }
+       
+        
         
         public void CreerJoueurs()
         {
@@ -374,6 +377,7 @@ namespace Jeux_mot_glissées
                 Console.WriteLine($"\n🏆 Vainqueur : {classement.First().Nom} avec {classement.First().Scoretot} points !");
             }
         }
+
 
 
     }
