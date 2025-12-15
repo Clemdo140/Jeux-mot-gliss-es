@@ -79,7 +79,8 @@ namespace Jeux_mot_glissées
                         Console.WriteLine("\n--- Définition de la taille du Plateau aléatoire ---");
                         Console.ResetColor();
                         lignes = SaisirDimension("lignes", 8, DIMENSION_MIN, DIMENSION_MAX);//8 par défaut, et on fixe 5 en min et 26 en max
-                        colonnes = SaisirDimension("colonnes", 8, DIMENSION_MIN, DIMENSION_MAX);
+                                                                                            // colonnes = SaisirDimension("colonnes", 8, DIMENSION_MIN, DIMENSION_MAX);
+                        colonnes = lignes; // On force un plateau carré pour simplifier la génération aléatoire
 
                         Console.WriteLine("\nLancement de la génération d'un plateau aléatoire...");// Option 2 : Jouer à partir d'un plateau généré aléatoirement
 
