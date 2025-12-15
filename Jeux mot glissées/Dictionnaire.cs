@@ -181,11 +181,11 @@ namespace Jeux_mot_glissées
             return description;
         }
         /// <summary>
-        /// Recherche dichotomique récursive d'un mot dans le dictionnaire
+        /// Recherche dichotomique récursive d'un mot dans le dictionnaire qui analyse les conditions initiales et prépare les données pour la recherche récursive
         /// </summary>
         /// <param name="mot"></param>
-        /// <returns></returns>
-        public bool RechDichoRecursif(string mot)//Recherche dicotomique du mot dans le dictiionnaire
+        /// <returns></returns> 
+        public bool RechDichoRecursif(string mot)
         {
             if (mot == null)
             {
