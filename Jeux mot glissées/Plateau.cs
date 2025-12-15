@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -59,7 +60,6 @@ namespace Jeux_mot_glissées
 
         {
             StringBuilder sb = new StringBuilder();//pour construire un affichage efficace
-            //sb.AppendLine("  A B C D E F G H I J K L M" );//car matrice de n colonnes
             for (int i = 0; i < nbcolonnes; i++)//ajoute le numéro de la ligne avant son contenu pour mieux se repérer
             {
                 sb.Append("--");//.Append rajoute à l'affichage
@@ -116,7 +116,8 @@ namespace Jeux_mot_glissées
         }
 
         /// <summary>
-        /// Génère un plateau aléatoire en respectant les contraintes de lettres.
+        /// Génère un plateau aléatoire en respectant les contraintes de lettres avec des lettres choisies de manière aléatoire
+        /// Cette méthode assure que la répartition des lettres sur le plateau est équilibrée et conforme aux règles
         /// </summary>
         public void GenererPlateaualeatoire()//génère le plateau aléatoirement
         {
@@ -163,10 +164,11 @@ namespace Jeux_mot_glissées
             }
         }
         /// <summary>
-        /// Lit un fichier CSV pour initialiser le plateau.
+        /// Lit un fichier CSV pour initialiser le plateau
+        /// transforme les éléments du fichier en éléments de la matrice
         /// </summary>
         /// <param name="nomfile"></param>
-        public void ToRead(string nomfile)//transforme les éléments du fichier en éléments de la matrice
+        public void ToRead(string nomfile)
         {
             try//méthode try catch pour éviter une nouvelle fois les erreurs
             {
@@ -224,10 +226,11 @@ namespace Jeux_mot_glissées
             }
         }
         /// <summary>
-        /// Charge les contraintes des lettres depuis le fichier Lettres.txt.
+        /// Charge les contraintes des lettres depuis le fichier Lettres.txt
+        /// elle les règles de génération du plateau et de scoring à partir du fichier Lettres.txt et les stocke dans une structure de données interne
         /// </summary>
         /// <returns></returns>
-        private Dictionary<char, (int max, int poids)> ChargerContraintesLettres()//permet d'extraire les règles de génération du plateau et de scoring à partir du fichier Lettres.txt et de les stocker dans une structure de données interne.
+        private Dictionary<char, (int max, int poids)> ChargerContraintesLettres()//
         {
             var contraintes = new Dictionary<char, (int max, int poids)>();//nouveau dictionnaire sera retourné
             try//méthode try catch encore un efois pour éviter les erreurs
@@ -265,11 +268,12 @@ namespace Jeux_mot_glissées
             return contraintes;
         }
         /// <summary>
-        /// Recherche un mot dans le plateau en suivant les règles de déplacement.
+        /// Recherche un mot dans le plateau en suivant les règles de déplacement
+        /// elle etabli d'abord les conditions initiales puis recherche le mot rentré par le joueur et  cherche la premiere lettre du mot depuis la base
         /// </summary>
         /// <param name="mot"></param>
         /// <returns></returns>
-        public object Recherche_Mot(string mot)//etablir les conditions initiales puis rechercher le mot rentré par le joueur, cherhce la premiere lettre du mot depuis la base
+        public object Recherche_Mot(string mot)
         {
             {
 
@@ -283,7 +287,7 @@ namespace Jeux_mot_glissées
 
                 int ligneBase = nblignes - 1; // La recherche commence systématiquement depuis la base de la matrice
 
-                for (int j = 0; j < nbcolonnes; j++)// 2. Boucle de départ, elle cherche la première lettre du mot donc le début du chemin
+                for (int j = 0; j < nbcolonnes; j++)//Boucle de départ, elle cherche la première lettre du mot donc le début du chemin
                 {
 
                     if (char.IsLetter(Matrice[ligneBase, j]) && Matrice[ligneBase, j] == premiereLettre)// Vérifie que la case contient une lettre valide
@@ -301,6 +305,7 @@ namespace Jeux_mot_glissées
 
         /// <summary>
         ///  Permet de vérifier si la suite du chemin est valide pour le mot rentré par le joueur sur le plateau
+        ///  à partir d'une position donnée, elle regarde si la lettre suivante du mot peut être trouvée dans l'une des cases voisines de déplacements autorisés
         /// </summary>
         /// <param name="mot"></param>
         /// <param name="indexMot"></param>
@@ -347,7 +352,7 @@ namespace Jeux_mot_glissées
 
                             if (Recherche_Recursive(mot, indexMot + 1, nLig, nCol, chemin))
                             {
-                                return true; // Succès: remonte la chaîne de retours
+                                return true; // Succès: on arrete de tester les autres directions
                             }
 
                             chemin.RemoveAt(chemin.Count - 1); // Échec, on annule le dernier mouvement
