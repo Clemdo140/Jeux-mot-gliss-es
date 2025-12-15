@@ -63,7 +63,7 @@ namespace Jeux_mot_glissées
         /// Ce tri dichotomique permet de résoudre un grand problème en le divisant récursivement en sous-problèmes plus petits, jusqu'à ce que les sous-problèmes soient simples à résoudre
         /// L'algorithme commence par sélectionner l'élément du milieu de la liste, appelé le pivot
         ///Rôle du Pivot : Servir de point de référence pour la division de la liste en deux sous-ensembles :les elements plus grand que pivot et ceux plus petits.
-        ///  ///Le rôle du pivot est de garantir qu'à la fin de la phase de partitionnemen, il se retrouve à sa position définitive dans la liste triée.
+        /// Le rôle du pivot est de garantir qu'à la fin de la phase de partitionnement, il se retrouve à sa position définitive dans la liste triée.
         /// Une fois que le pivot est placé, on sait qu'il est exactement à sa place correcte.
         ///Il ne sera plus jamais déplacé ou inclus dans les étapes récursives suivantes, car le tri est appliqué uniquement aux sous-listes à gauche et à droite de cet index.
         ///La methode est donc de trier successivement des pivots un par un
