@@ -6,6 +6,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Resources.ResXFileRef;
 
 namespace Jeux_mot_glissées
 {
@@ -69,14 +70,14 @@ namespace Jeux_mot_glissées
 
             for (int i = 0; i < nblignes; i++)//ajoute le numéro de la ligne avant son contenu pour mieux se repérer
             {
-                sb.Append((i + 1).ToString());
+                sb.Append((i + 1).ToString());   // Affiche le numéro de la ligne i+1
                 if (i < 9)
                 {
-                    sb.Append($"{"|",2}");
+                    sb.Append($"{"|",2}");   // Ajoute un séparateur | avec un alignement sur 2 caractères de la ligne 1 à 9
                 }
                 else
                 {
-                    sb.Append("|");
+                    sb.Append("|"); // Ajoute un séparateur | sans alignement pour les lignes 10 et plus
                 }
 
                 for (int j = 0; j < nbcolonnes; j++)
@@ -86,7 +87,7 @@ namespace Jeux_mot_glissées
                 }
                 sb.AppendLine();
             }
-            return sb.ToString();
+            return sb.ToString();  //Retourne la chaine construite
         }
         /// <summary>
         /// Sauvegarde le plateau dans un fichier au format CSV.
@@ -107,7 +108,7 @@ namespace Jeux_mot_glissées
                         }
                         lignes[i] = ligne;
                     }
-                    File.WriteAllLines(nomfile, lignes);
+                    File.WriteAllLines(nomfile, lignes); //écrit toutes les lignes dans le fichier spécifié 
                 }
                 catch (Exception ex)//message affiché en cas d'erreur
                 {
@@ -123,29 +124,29 @@ namespace Jeux_mot_glissées
         public void GenererPlateaualeatoire()//génère le plateau aléatoirement
         {
 
-            List<char> lettresPool = new List<char>();
-            int totalCases = nblignes * nbcolonnes;
+            List<char> lettresPool = new List<char>(); // Liste pour stocker les lettres disponibles en fonction des contraintes
+            int totalCases = nblignes * nbcolonnes; // Nombre total de cases dans la matrice
 
             foreach (var kvp in lettrescontraintes)//parcours la règle de chaque lettre
             {
 
                 for (int i = 0; i < kvp.Value.max; i++)//la pondération, ajoute la lettre en son nombre maximum de fois
                 {
-                    lettresPool.Add(kvp.Key);
+                    lettresPool.Add(kvp.Key); //ajoute la lettre au pool
                 }
             }
 
-            if (lettresPool.Count == 0)//gerer l'erreur
+            if (lettresPool.Count == 0)//gerer l'erreur. Si aucune lettre n'a été ajoutée au pool, on quitte la méthode
             {
                 return;
             }
 
 
-            for (int i = 0; i < nblignes; i++)
+            for (int i = 0; i < nblignes; i++) //remplissage de la matrice
             {
-                for (int j = 0; j < nbcolonnes; j++)
+                for (int j = 0; j < nbcolonnes; j++) 
                 {
-                    if (lettresPool.Count > 0)
+                    if (lettresPool.Count > 0) // Vérifie s'il reste des lettres dans le pool
                     {
 
                         int index = r.Next(lettresPool.Count);//choix d'un index aléatoire dans le pool restant
@@ -169,15 +170,15 @@ namespace Jeux_mot_glissées
         /// transforme les éléments du fichier en éléments de la matrice
         /// </summary>
         /// <param name="nomfile"></param>
-        public void ToRead(string nomfile)
+        public void ToRead(string nomfile) 
         {
             try//méthode try catch pour éviter une nouvelle fois les erreurs
             {
                 string[] lignes = File.ReadAllLines(nomfile);//lit le contenu du fichier et le place en mémoire sous forme de tableau
-                this.nblignes = lignes.Length;
+                this.nblignes = lignes.Length; // le nombre de lignes du fichier devient le nombre de lignes du plateau
                 if (nblignes > 0)
                 {
-                    this.nbcolonnes = lignes[0].Split(',').Length;
+                    this.nbcolonnes = lignes[0].Split(',').Length; // on compte combien il y a de colonnes en regardant la premiere ligne. On découpe avec split
                 }
 
                 // Redimensionnement de la Matrice
@@ -197,7 +198,7 @@ namespace Jeux_mot_glissées
                         else
                         {
                             // Prendre le premier caractère de la cellule nettoyée
-                            Matrice[i, j] = cellule[0];
+                            Matrice[i, j] = cellule[0]; // Garanti que chaque case du plateau contient une seule lettre
                         }
                     }
                 }
@@ -279,24 +280,24 @@ namespace Jeux_mot_glissées
             {
 
                 if (string.IsNullOrWhiteSpace(mot) || mot.Length < 2) 
-                    return null;
+                    return null; // Mot invalide s'il est vide ou trop court. Rettourne null, cela évite de lancer une recherche inutile
 
-                string motUpper = mot.ToUpper();
-                char premiereLettre = motUpper[0];
+                string motUpper = mot.ToUpper(); //convertit le mot en majuscules pour simplifier la recherche
+                char premiereLettre = motUpper[0]; // Récupère la première lettre du mot à chercher
 
 
 
-                int ligneBase = nblignes - 1; // La recherche commence systématiquement depuis la base de la matrice
+                int ligneBase = nblignes - 1; // Définit la ligne de départ comme la dernière ligne du plateau. Cela veut dire que la recherche commence toujours par le bas du plateau
 
                 for (int j = 0; j < nbcolonnes; j++)//Boucle de départ, elle cherche la première lettre du mot donc le début du chemin
                 {
 
-                    if (char.IsLetter(Matrice[ligneBase, j]) && Matrice[ligneBase, j] == premiereLettre)// Vérifie que la case contient une lettre valide
+                    if (char.IsLetter(Matrice[ligneBase, j]) && Matrice[ligneBase, j] == premiereLettre)// Vérifie que la case contient bien une lettre et que cette lettre correspond à la première lettre du mot recherché
                     {
-                        List<(int, int)> chemin = new List<(int, int)> { (ligneBase, j) };
+                        List<(int, int)> chemin = new List<(int, int)> { (ligneBase, j) }; // Crée une liste de coordonnées (ligne, colonne) qui représente le chemin du mot. On ajoute la première case trouvée comme point de départ.
 
-                        if (Recherche_Recursive(motUpper, 1, ligneBase, j, chemin))
-                            return chemin;
+                        if (Recherche_Recursive(motUpper, 1, ligneBase, j, chemin)) // Appelle la méthode récursive pour chercher le reste du mot à partir de la position actuelle (ligneBase, j) et de l'index 1 (deuxième lettre du mot)
+                            return chemin; // liste des coordonnées déjà trouvées
                     }
                 }
                 return null;
@@ -321,7 +322,8 @@ namespace Jeux_mot_glissées
                 return true; // Condition d'arrêt: tout le mot a été trouvé
             }
 
-            char lettreCible = mot[indexMot];
+            char lettreCible = mot[indexMot]; // Récupère la lettre qu’on cherche à cette étape
+
 
             // Déplacements possibles:
             // HAUT:         -1, 0
@@ -333,10 +335,10 @@ namespace Jeux_mot_glissées
             int[] dLig = { -1, 0, 0, -1, -1, 1 };
             int[] dCol = { 0, -1, 1, -1, 1, 0 };
 
-            for (int k = 0; k < dLig.Length; k++)
+            for (int k = 0; k < dLig.Length; k++) // Boucle sur toutes les directions possibles
             {
-                int nLig = ligCourante + dLig[k];
-                int nCol = colCourante + dCol[k];
+                int nLig = ligCourante + dLig[k];  // Calcule la nouvelle position ligne
+                int nCol = colCourante + dCol[k];  // Calcule la nouvelle position colonne
 
 
                 if (nLig >= 0 && nLig < nblignes && nCol >= 0 && nCol < nbcolonnes)//vérifie si on est dans les limites du plateau
@@ -349,9 +351,9 @@ namespace Jeux_mot_glissées
                         char.IsLetter(Matrice[nLig, nCol]) &&        // La case contient une lettre
                          Matrice[nLig, nCol] == lettreCible)          // La lettre correspond à celle recherchée
                         {
-                            chemin.Add((nLig, nCol));
+                            chemin.Add((nLig, nCol)); // Ajoute la nouvelle position au chemin si conditions vérifiées
 
-                            if (Recherche_Recursive(mot, indexMot + 1, nLig, nCol, chemin))
+                            if (Recherche_Recursive(mot, indexMot + 1, nLig, nCol, chemin)) // Appel récursif pour la lettre suivante du mot
                             {
                                 return true; // Succès: on arrete de tester les autres directions
                             }
@@ -373,13 +375,13 @@ namespace Jeux_mot_glissées
         /// <param name="cheminMot"></param>
         public void Maj_Plateau(List<(int ligne, int colonne)> cheminMot)
         {
-            if (cheminMot == null || cheminMot.Count == 0)
+            if (cheminMot == null || cheminMot.Count == 0) // Si le chemin est nul ou vide rien à faire
                 return;
 
 
-            foreach (var coord in cheminMot) //Vide les cases du mot trouvé
+            foreach (var coord in cheminMot) //Parcourt toutes les coordonnées du mot trouvé 
             {
-                Matrice[coord.ligne, coord.colonne] = ' '; // Marque la case comme vide
+                Matrice[coord.ligne, coord.colonne] = ' '; // Vide chacune de ces cases en les remplaçant par un espace
             }
 
             for (int j = 0; j < nbcolonnes; j++) // glissement colonne par colonne

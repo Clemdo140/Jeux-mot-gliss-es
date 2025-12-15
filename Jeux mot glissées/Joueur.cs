@@ -50,7 +50,7 @@ namespace Jeux_mot_glissées
             if (mot != null && mot.Length != 0 && !Contient(mot)) //on vérifie que le mot n'est pas vide et qu'il n'a pas déja été ajouté à la liste
             {
 
-                Motstrouvés.Add(mot.ToUpper());//on met en majuscules pour éviter les erreurs
+                Motstrouvés.Add(mot.ToUpper());//on met en majuscules pour éviter les erreurs et on ajoute le mot à la liste
             }
         }
         /// <summary>
