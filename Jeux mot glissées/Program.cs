@@ -97,7 +97,9 @@ namespace Jeux_mot_glissées
             Console.WriteLine("\nMerci d'avoir joué au jeu des MOTS GLISSÉS. Au revoir !");
             Console.ReadKey();
         }
-
+        /// <summary>
+        /// Affiche le menu principal du jeu avec les options disponibles.
+        /// </summary>
         static void AfficherMenu()
         {
             Console.WriteLine("\n==============================");
@@ -122,6 +124,14 @@ namespace Jeux_mot_glissées
             Console.Write("Votre choix : ");
         }
 
+        /// <summary>
+        /// Gère la saisie sécurisée d'une dimension (lignes ou colonnes) pour le plateau de jeu.
+        /// </summary>
+        /// <param name="nomDimension"></param>
+        /// <param name="defaut"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
         static int SaisirDimension(string nomDimension, int defaut, int min, int max)
         {
             int valeur = defaut;//8 ici

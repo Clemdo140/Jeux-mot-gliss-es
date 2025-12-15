@@ -36,9 +36,11 @@ namespace Jeux_mot_glissées
         { get; set; }
         public List<Joueur> Joueurs 
         { get; private set; }
-       
-        
-        
+
+
+        /// <summary>
+        /// Crée les joueurs pour la partie en demandant leurs noms et en s'assurant qu'ils sont valides
+        /// </summary>
         public void CreerJoueurs()
         {
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -74,7 +76,7 @@ namespace Jeux_mot_glissées
                     Console.Write("Entrez le nom du Joueur " + (i + 1) + " : ");
                     nom = Console.ReadLine();
 
-                    // 1. Vérification que le nom ne soit pas vide
+                    //Vérification que le nom ne soit pas vide
                     if (string.IsNullOrWhiteSpace(nom))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -83,7 +85,7 @@ namespace Jeux_mot_glissées
                         continue; // On recommence la boucle while immédiatement
                     }
 
-                    // 2. Vérification des doublons 
+                    //Vérification des doublons 
                     bool existeDeja = false;
 
                     // On parcourt la liste des joueurs déjà créés
@@ -121,7 +123,9 @@ namespace Jeux_mot_glissées
             }
         }
 
-
+        /// <summary>
+        /// Configure les règles de temps pour la partie.
+        /// </summary>
         public void ConfigurerTemps()
         {
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -196,6 +200,10 @@ namespace Jeux_mot_glissées
 
             Console.WriteLine($"\nVoici les règles de temps : {DureePartie.TotalMinutes} min | Tour max : {TempsParTour.TotalSeconds} sec.");
         }
+        /// <summary>
+        /// Démarre la partie avec le plateau initial donné en paramètre
+        /// </summary>
+        /// <param name="plateauInitial"></param>
         public void DemarrerPartie(Plateau plateauInitial)
         {
             PlateauCourant = plateauInitial;
@@ -231,6 +239,11 @@ namespace Jeux_mot_glissées
 
             AfficherResultatsFinaux();
         }
+        /// <summary>
+        /// Lit un mot depuis la console avec une durée maximale définie
+        /// </summary>
+        /// <param name="dureeMax"></param>
+        /// <returns></returns>
         private static string LireMotAvecTimeout(TimeSpan dureeMax)
         {
             DateTime debutLecture = DateTime.Now;
@@ -271,6 +284,11 @@ namespace Jeux_mot_glissées
             Console.WriteLine(); // Aller à la ligne
             return null;
         }
+        /// <summary>
+        /// Gère le tour d'un joueur en fonction du temps et de ses tentatives de mots
+        /// </summary>
+        /// <param name="joueur"></param>
+        /// <returns></returns>
         private bool JouerTour(Joueur joueur)
         {
             DateTime heureDebutTour = DateTime.Now;
@@ -336,7 +354,11 @@ namespace Jeux_mot_glissées
             Console.WriteLine("Temps imparti pour le tour écoulé.");//si il n'as pas trouvé de mot valide avat la fin du while
             return false;
         }
-
+        /// <summary>
+        /// Calcule le score d'un mot en fonction de sa longueur et des poids des lettres
+        /// </summary>
+        /// <param name="mot"></param>
+        /// <returns></returns>
         private int CalculerScore(string mot)
         {
 
@@ -355,6 +377,9 @@ namespace Jeux_mot_glissées
             Console.WriteLine($"+ {score} points pour ce mot.");
             return score;//le score est la longueur au carré du mot plus la somme des poids des lettres
         }
+        /// <summary>
+        /// Affiche les résultats finaux de la partie avec le classement des joueurs
+        /// </summary>
 
         private void AfficherResultatsFinaux()
         {

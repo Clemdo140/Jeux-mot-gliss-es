@@ -51,7 +51,10 @@ namespace Jeux_mot_glissées
             get { return matrice; }
              set { matrice = value; }
         }
-
+        /// <summary>
+        /// Affichage du plateau sous forme de chaîne de caractères.
+        /// </summary>
+        /// <returns></returns>
         public string toString()//affichage du plateau
 
         {
@@ -84,6 +87,10 @@ namespace Jeux_mot_glissées
             }
             return sb.ToString();
         }
+        /// <summary>
+        /// Sauvegarde le plateau dans un fichier au format CSV.
+        /// </summary>
+        /// <param name="nomfile"></param>
         public void ToFile(string nomfile)//sauvegarder l'état interne de la matrice de lettres, elle prend l'etat actuel de la matrice lettres et la convertit en format simple
         {
             {
@@ -108,7 +115,9 @@ namespace Jeux_mot_glissées
             }
         }
 
-
+        /// <summary>
+        /// Génère un plateau aléatoire en respectant les contraintes de lettres.
+        /// </summary>
         public void GenererPlateaualeatoire()//génère le plateau aléatoirement
         {
 
@@ -153,6 +162,10 @@ namespace Jeux_mot_glissées
                 }
             }
         }
+        /// <summary>
+        /// Lit un fichier CSV pour initialiser le plateau.
+        /// </summary>
+        /// <param name="nomfile"></param>
         public void ToRead(string nomfile)//transforme les éléments du fichier en éléments de la matrice
         {
             try//méthode try catch pour éviter une nouvelle fois les erreurs
@@ -210,6 +223,10 @@ namespace Jeux_mot_glissées
                 GenererPlateaualeatoire();
             }
         }
+        /// <summary>
+        /// Charge les contraintes des lettres depuis le fichier Lettres.txt.
+        /// </summary>
+        /// <returns></returns>
         private Dictionary<char, (int max, int poids)> ChargerContraintesLettres()//permet d'extraire les règles de génération du plateau et de scoring à partir du fichier Lettres.txt et de les stocker dans une structure de données interne.
         {
             var contraintes = new Dictionary<char, (int max, int poids)>();//nouveau dictionnaire sera retourné
@@ -247,6 +264,11 @@ namespace Jeux_mot_glissées
             }
             return contraintes;
         }
+        /// <summary>
+        /// Recherche un mot dans le plateau en suivant les règles de déplacement.
+        /// </summary>
+        /// <param name="mot"></param>
+        /// <returns></returns>
         public object Recherche_Mot(string mot)//etablir les conditions initiales puis rechercher le mot rentré par le joueur, cherhce la premiere lettre du mot depuis la base
         {
             {
@@ -277,7 +299,16 @@ namespace Jeux_mot_glissées
 
         }
 
-        private bool Recherche_Recursive(string mot, int indexMot, int ligCourante, int colCourante, List<(int, int)> chemin)//permet de vérifier si la suite du chemin est valide pour le mot rentré par le joueur sur le plateau
+        /// <summary>
+        ///  Permet de vérifier si la suite du chemin est valide pour le mot rentré par le joueur sur le plateau
+        /// </summary>
+        /// <param name="mot"></param>
+        /// <param name="indexMot"></param>
+        /// <param name="ligCourante"></param>
+        /// <param name="colCourante"></param>
+        /// <param name="chemin"></param>
+        /// <returns></returns>
+        private bool Recherche_Recursive(string mot, int indexMot, int ligCourante, int colCourante, List<(int, int)> chemin)
         {
             if (indexMot == mot.Length)
             {
@@ -328,6 +359,10 @@ namespace Jeux_mot_glissées
             }
             return false; // Échec du chemin à partir de cette position
         }
+        /// <summary>
+        /// Met à jour le plateau après la suppression d'un mot trouvé.
+        /// </summary>
+        /// <param name="cheminMot"></param>
         public void Maj_Plateau(List<(int ligne, int colonne)> cheminMot)//permet de vider les cases du mot trouvé et de faire glisser les lettres des colonnes en question vers le bas
         {
             if (cheminMot == null || cheminMot.Count == 0)

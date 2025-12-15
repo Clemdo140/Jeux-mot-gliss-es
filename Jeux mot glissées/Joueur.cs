@@ -41,7 +41,10 @@ namespace Jeux_mot_glissées
             private set {scoreplateau=value; }
 
         }
-
+        /// <summary>
+        /// Ajoute un mot à la liste des mots trouvés par le joueur s'il n'y est pas déjà
+        /// </summary>
+        /// <param name="mot"></param>
         public void Add_Mot(string mot)
         {
             if (mot != null && mot.Length != 0 && !Contient(mot)) //on vérifie que le mot n'est pas vide et qu'il n'a pas déja été ajouté à la liste
@@ -50,7 +53,10 @@ namespace Jeux_mot_glissées
                 Motstrouvés.Add(mot.ToUpper());//on met en majuscules pour éviter les erreurs
             }
         }
-
+        /// <summary>
+        /// Affiche les informations du joueur
+        /// </summary>
+        /// <returns></returns>
         public string toString()
         {
             string mots = AfficherListe(motstrouvés);//on utilise une fonction spécifique pour afficher les listes
@@ -58,7 +64,12 @@ namespace Jeux_mot_glissées
             return ($"Nom : {Nom}\nScore total : {Scoretot}\nMots trouvés ({Motstrouvés.Count}) : {mots}\nScores par plateau : {scores}");
 
         }
-
+        /// <summary>
+        /// Affiche une liste générique sous forme de chaîne de caractères
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="liste"></param>
+        /// <returns></returns>
         private string AfficherListe<T>(List<T> liste)//private car utilisée que dans cette classe
         {
             if (liste == null || liste.Count == 0)
@@ -81,6 +92,10 @@ namespace Jeux_mot_glissées
 
             return resultat;
         }
+        /// <summary>
+        /// Ajoute un score au score total et à l'historique des scores par plateau
+        /// </summary>
+        /// <param name="val"></param>
         public void Add_Score(int val)
         {
             if (val > 0)
@@ -89,7 +104,11 @@ namespace Jeux_mot_glissées
                 scoreplateau.Add(val); // Ajout à l'historique par plateau
             }
         }
-
+        /// <summary>
+        /// Vérifie si un mot a déjà été trouvé par le joueur
+        /// </summary>
+        /// <param name="mot"></param>
+        /// <returns></returns>
         public bool Contient(string mot)
         {
             return Motstrouvés.Contains(mot.ToUpper()); //on vérifie si le mot en paramètre est dans la liste des most trouvés, on met en majuscules pour éviter les erreurs

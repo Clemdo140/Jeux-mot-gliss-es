@@ -8,6 +8,9 @@ public class PlateauTests
 {
 
     [TestMethod]
+    /// <summary>
+    /// Teste la recherche de mots sur le plateau, en s'assurant que les chemins valides sont correctement identifiés et que les mots invalides ne sont pas trouvés
+    ///   /// <summary>
     public void Test3_Recherche_Mot_Trouve_Chemin_Valide_Depuis_Base()
     {
         //Créer un plateau 3x3
@@ -35,6 +38,9 @@ public class PlateauTests
 
     // 4. Test du Glissement du Plateau (Maj_Plateau)
     [TestMethod]
+    /// <summary>
+    /// Teste la mise à jour du plateau après la suppression d'un mot, en vérifiant que les lettres au-dessus glissent correctement vers le bas pour remplir les espaces vides
+    /// <summary>
     public void Test4_Maj_Plateau_Glissement_Vertical_Correct()
     {
         // Créer un plateau 4x1 pour tester le glissement vertical

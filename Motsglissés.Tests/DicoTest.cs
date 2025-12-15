@@ -12,6 +12,9 @@ namespace Motsglissés.Tests
             dico = new Dictionnaire();
         }
         [TestMethod]
+        /// <summary>
+        /// Vérifie que le tri rapide a correctement trié les sous-listes de mots dans le dictionnaire
+        /// <summary>
         public void Test1_Tri_QuickSort_Est_Trie_Correctement()
         {
             // On choisit une sous-liste à vérifier (ici, on prend les mots en 'C', index 2)
@@ -28,6 +31,9 @@ namespace Motsglissés.Tests
             }
         }
         [TestMethod]
+        /// <summary>
+        /// Vérifie que la recherche dichotomique récursive trouve correctement les mots valides et rejette les mots invalides
+        /// <summary>
         public void Test2_RechDichoRecursif_Trouve_Mots_Valides()
         {
             // on définit des mots à tester

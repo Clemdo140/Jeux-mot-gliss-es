@@ -159,6 +159,10 @@ namespace Jeux_mot_glissées
                 Console.WriteLine($"Erreur lors de la lecture du dictionnaire '{NOM_FICHIER_DICO}' : {ex.Message}");
             }
         }
+        /// <summary>
+        /// Affiche les informations du dictionnaire
+        /// </summary>
+        /// <returns></returns>
         public string toString()//Afficher l'ensemble des mots du dictionnaire
         {
             int totalMots = 0;
@@ -176,6 +180,11 @@ namespace Jeux_mot_glissées
 
             return description;
         }
+        /// <summary>
+        /// Recherche dichotomique récursive d'un mot dans le dictionnaire
+        /// </summary>
+        /// <param name="mot"></param>
+        /// <returns></returns>
         public bool RechDichoRecursif(string mot)//Recherche dicotomique du mot dans le dictiionnaire
         {
             if (mot == null)
@@ -195,7 +204,14 @@ namespace Jeux_mot_glissées
             // Lance la recherche dichotomique récursive sur la sous-liste triée.
             return RechercherMotRecursifAide(listeCible, motMaj, 0, listeCible.Count - 1);//on se restreint à rechercher les mots qui commencent par la même lettre
         }
-
+        /// <summary>
+        /// Fonction d'aide récursive pour la recherche dichotomique
+        /// </summary>
+        /// <param name="liste"></param>
+        /// <param name="mot"></param>
+        /// <param name="debut"></param>
+        /// <param name="fin"></param>
+        /// <returns></returns>
         private bool RechercherMotRecursifAide(List<string> liste, string mot, int debut, int fin)
         {
             if (debut > fin) return false; // Condition d'arrêt : l'élément n'existe pas

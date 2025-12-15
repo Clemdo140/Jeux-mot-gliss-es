@@ -8,6 +8,9 @@ public class JoueurTests
 {
 
     [TestMethod]
+    /// <summary>
+    ///  Teste l'ajout de mots et de scores dans la classe Joueur, y compris la gestion des doublons et la mise à jour correcte du score total
+    /// <summary>
     public void Test5_Joueur_Gestion_Mot_Et_Score()
     {
         Joueur joueur = new Joueur("Testeur");
