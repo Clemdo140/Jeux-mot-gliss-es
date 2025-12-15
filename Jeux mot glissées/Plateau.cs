@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -365,10 +366,12 @@ namespace Jeux_mot_glissées
             return false; // Échec du chemin à partir de cette position
         }
         /// <summary>
-        /// Met à jour le plateau après la suppression d'un mot trouvé.
+        /// Met à jour le plateau après la suppression d'un mot trouvé
+        /// Suppression : Elle vide les cases occupées par le mot trouvé
+       /// Glissement : Elle fait tomber les lettres restantes dans chaque colonne pour combler les espaces vides .
         /// </summary>
         /// <param name="cheminMot"></param>
-        public void Maj_Plateau(List<(int ligne, int colonne)> cheminMot)//permet de vider les cases du mot trouvé et de faire glisser les lettres des colonnes en question vers le bas
+        public void Maj_Plateau(List<(int ligne, int colonne)> cheminMot)
         {
             if (cheminMot == null || cheminMot.Count == 0)
                 return;
