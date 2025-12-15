@@ -65,7 +65,7 @@ namespace Jeux_mot_glissées
 
         }
         /// <summary>
-        /// Affiche une liste générique sous forme de chaîne de caractères
+        /// Affiche une liste générique <typeparamref name="T"/> sous forme de chaîne de caractères
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="liste"></param>

@@ -11,6 +11,10 @@ namespace Jeux_mot_glissées
 {
     internal class Program
     {
+        /// <summary>
+        /// Point d'entrée principal de l'application
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
          
@@ -126,7 +130,7 @@ namespace Jeux_mot_glissées
         }
 
         /// <summary>
-        /// Gère la saisie sécurisée d'une dimension (lignes ou colonnes) pour le plateau de jeu.
+        /// Gère la saisie sécurisée des dimensions  pour le plateau de jeu.
         /// </summary>
         /// <param name="nomDimension"></param>
         /// <param name="defaut"></param>

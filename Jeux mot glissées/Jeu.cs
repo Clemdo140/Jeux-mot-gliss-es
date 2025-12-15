@@ -202,6 +202,7 @@ namespace Jeux_mot_glissées
         }
         /// <summary>
         /// Démarre la partie avec le plateau initial donné en paramètre
+        /// Son rôle est de gérer la boucle des tours, l'alternance des joueurs, et les conditions d'arrêt du jeu
         /// </summary>
         /// <param name="plateauInitial"></param>
         public void DemarrerPartie(Plateau plateauInitial)
@@ -241,6 +242,7 @@ namespace Jeux_mot_glissées
         }
         /// <summary>
         /// Lit un mot depuis la console avec une durée maximale définie en paramètre
+        /// Elle gère les différents cas de saisie de l'utilisateur 
         /// </summary>
         /// <param name="dureeMax"></param>
         /// <returns></returns>
