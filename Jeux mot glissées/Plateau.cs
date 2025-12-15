@@ -52,7 +52,7 @@ namespace Jeux_mot_glissées
              set { matrice = value; }
         }
         /// <summary>
-        /// Affichage du plateau sous forme de chaîne de caractères.
+        /// Affichage du plateau sous forme de chaîne de caractères
         /// </summary>
         /// <returns></returns>
         public string toString()//affichage du plateau
