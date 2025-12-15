@@ -50,7 +50,7 @@ namespace Jeux_mot_glissées
             // On demande combien de joueurs vont participer tant que le nombre de joueurs rentré est inférieur à 2
             while (nbJoueurs < 2)
             {
-                Console.Write("Combien de joueurs participent (minimum 2) ? ");
+                Console.Write("Combien de joueurs jouent (au moins 2) ? ");
                 string entree = Console.ReadLine();
 
                 // On vérifie que c'est bien un nombre et qu'il est supérieur ou égal à 2
@@ -135,7 +135,7 @@ namespace Jeux_mot_glissées
 
             while (!saisieValideMin)
             {
-                Console.Write($"Durée totale (en minutes, défaut {DureePartieDefaut.TotalMinutes} min) : ");
+                Console.Write($"Quelle est la durée totale (en minutes), par défaut elle sera initialisé à {DureePartieDefaut.TotalMinutes} min : ");
                 string input = Console.ReadLine();
 
                 
@@ -168,7 +168,7 @@ namespace Jeux_mot_glissées
 
             while (!saisieValideSec)
             {
-                Console.Write($"Temps max par tour (en secondes, défaut {TempsParTourDefaut.TotalSeconds} sec) : ");
+                Console.Write($"Quel est le temps max par tour (en secondes), par défaut elle sera initialisée à {TempsParTourDefaut.TotalSeconds} sec : ");
                 string input = Console.ReadLine();
 
                
@@ -281,7 +281,7 @@ namespace Jeux_mot_glissées
 
                 TimeSpan tempsRestantGlobal = DureePartie - (DateTime.Now - this.heureDebutPartie); // Calcul du temps restant global 
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write($"Saisissez votre mot ou (passer) --- Reste {tempsRestantTour.Minutes:D2}min et {tempsRestantTour.Seconds:D2}sec : ");
+                Console.Write($"Saisissez votre mot ou passez --- Reste {tempsRestantTour.Minutes:D2}min et {tempsRestantTour.Seconds:D2}sec : ");
                 Console.ResetColor();
 
                 string motSaisi = LireMotAvecTimeout(tempsRestantTour);
