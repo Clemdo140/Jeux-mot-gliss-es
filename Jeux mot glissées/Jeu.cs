@@ -295,12 +295,18 @@ namespace Jeux_mot_glissées
         private bool JouerTour(Joueur joueur)
         {
             DateTime heureDebutTour = DateTime.Now;
+            TimeSpan tempsRestantGlobalinitial = DureePartie - (DateTime.Now - this.heureDebutPartie);
+            TimeSpan dureeMaxTourEffective = TempsParTour;
+            if (tempsRestantGlobalinitial < TempsParTour)
+            {
+                dureeMaxTourEffective = tempsRestantGlobalinitial;
+            }
 
-            while ((DateTime.Now - heureDebutTour) < TempsParTour)
+            while ((DateTime.Now - heureDebutTour) < dureeMaxTourEffective)
             {
                 //Calcul du Temps Restant pour le Tour Actuel
                 TimeSpan tempsPasse = DateTime.Now - heureDebutTour;
-                TimeSpan tempsRestantTour = TempsParTour - tempsPasse;
+                TimeSpan tempsRestantTour = dureeMaxTourEffective - tempsPasse;
 
                 if (tempsRestantTour <= TimeSpan.Zero) 
                 {

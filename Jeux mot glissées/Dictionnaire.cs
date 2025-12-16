@@ -86,12 +86,12 @@ namespace Jeux_mot_glissées
         {
            
             int milieu = debut + (fin - debut) / 2; // Calcule le milieu
-            string tempo = liste[milieu]; // Échange l'élément du milieu avec l'élément de fin
+            string tempo = liste[milieu]; // Échange l'élément du milieu avec l'élément de fin pour simplifier la boucle
             liste[milieu] = liste[fin];
             liste[fin] = tempo;
 
             string pivot = liste[fin];//on utilise liste[fin] comme pivot 
-            int i = debut - 1;//marqueur de la fin de la zone des plus petits éléments de pivot.
+            int i = debut - 1;// i représente la frontière entre les éléments plus petits que le pivot(à gauche) et ceux plus grands (à droite)
 
             for (int j = debut; j < fin; j++)//on ne touche pas au pivot qui est a la fin
             {
