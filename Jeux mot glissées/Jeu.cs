@@ -10,8 +10,8 @@ namespace Jeux_mot_glissées
     internal class Jeu
     {
 
-        public Dictionnaire dictionnaire;
-        public Plateau plateauCourant;
+        public Dictionnaire dictionnaire; // Contient le dictionnaire des mots valides pour la partie
+        public Plateau plateauCourant; // Le plateau de jeu actuel
         private List<Joueur> joueurs;
 
         private TimeSpan DureePartieDefaut = TimeSpan.FromMinutes(2); // Durée totale par défaut de 2 minutes pour une partie
@@ -298,10 +298,11 @@ namespace Jeux_mot_glissées
 
             while ((DateTime.Now - heureDebutTour) < TempsParTour)
             {
+                //Calcul du Temps Restant pour le Tour Actuel
                 TimeSpan tempsPasse = DateTime.Now - heureDebutTour;
                 TimeSpan tempsRestantTour = TempsParTour - tempsPasse;
 
-                if (tempsRestantTour <= TimeSpan.Zero)
+                if (tempsRestantTour <= TimeSpan.Zero) 
                 {
                     break; // Sortir si le temps est déjà écoulé
                 }
@@ -311,14 +312,14 @@ namespace Jeux_mot_glissées
                 Console.Write($"Saisissez votre mot ou passez --- Reste {tempsRestantTour.Minutes:D2}min et {tempsRestantTour.Seconds:D2}sec : ");
                 Console.ResetColor();
 
-                string motSaisi = LireMotAvecTimeout(tempsRestantTour);
+                string motSaisi = LireMotAvecTimeout(tempsRestantTour); //renvoie soit le mot saisi, soit null si le temps est écoulé.
                 if ((DateTime.Now - this.heureDebutPartie) >= DureePartie)
                 {
                     Console.WriteLine("\nFIN DE PARTIE ! Le temps total est écoulé. Le mot saisi n'est pas pris en compte.");
                     return true; // Arrêt immédiat de la partie
                 }
 
-                if (string.IsNullOrWhiteSpace(motSaisi) || motSaisi.Equals("passer", StringComparison.OrdinalIgnoreCase))// si rien n'es rentrer ou que le joueur a dit qu'il voulait passer
+                if (string.IsNullOrWhiteSpace(motSaisi) || motSaisi.Equals("passez", StringComparison.OrdinalIgnoreCase))// si rien n'es rentrer ou que le joueur a dit qu'il voulait passer
                 {
                     Console.WriteLine("Passage au joueur suivant.");
                     return false;
@@ -399,6 +400,7 @@ namespace Jeux_mot_glissées
             Console.ResetColor();   
 
             var classement = Joueurs.OrderByDescending(j => j.Scoretot).ToList();//variable qui stock le classement des joueurs en fonction de leurs classements
+                                                                                 //dans l'ordre décroissant
 
             foreach (var joueur in classement)
             {

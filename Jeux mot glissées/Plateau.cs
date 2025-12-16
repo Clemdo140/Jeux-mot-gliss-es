@@ -349,7 +349,7 @@ namespace Jeux_mot_glissées
                       
                         if (           
 
-                        char.IsLetter(Matrice[nLig, nCol]) &&        // La case contient une lettre
+                         char.IsLetter(Matrice[nLig, nCol]) &&        // La case contient une lettre
                          Matrice[nLig, nCol] == lettreCible)          // La lettre correspond à celle recherchée
                         {
                             chemin.Add((nLig, nCol)); // Ajoute la nouvelle position au chemin si conditions vérifiées
