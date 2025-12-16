@@ -124,7 +124,7 @@ namespace Jeux_mot_glissées
         public void GenererPlateaualeatoire()//génère le plateau aléatoirement
         {
 
-            List<char> lettresPool = new List<char>(); // Liste pour stocker les lettres disponibles en fonction des contraintes
+            List<char> lettresPond = new List<char>(); // Liste pour stocker les lettres disponibles en fonction des contraintes
             int totalCases = nblignes * nbcolonnes; // Nombre total de cases dans la matrice
 
             foreach (var kvp in lettrescontraintes)//parcours la règle de chaque lettre
@@ -132,11 +132,11 @@ namespace Jeux_mot_glissées
 
                 for (int i = 0; i < kvp.Value.max; i++)//la pondération, ajoute la lettre en son nombre maximum de fois
                 {
-                    lettresPool.Add(kvp.Key); //ajoute la lettre au pool
+                    lettresPond.Add(kvp.Key); //ajoute la lettre au pool
                 }
             }
 
-            if (lettresPool.Count == 0)//gerer l'erreur. Si aucune lettre n'a été ajoutée au pool, on quitte la méthode
+            if (lettresPond.Count == 0)//gerer l'erreur. Si aucune lettre n'a été ajoutée au pool, on quitte la méthode
             {
                 return;
             }
@@ -146,16 +146,16 @@ namespace Jeux_mot_glissées
             {
                 for (int j = 0; j < nbcolonnes; j++) 
                 {
-                    if (lettresPool.Count > 0) // Vérifie s'il reste des lettres dans le pool
+                    if (lettresPond.Count > 0) // Vérifie s'il reste des lettres dans le pool
                     {
 
-                        int index = r.Next(lettresPool.Count);//choix d'un index aléatoire dans le pool restant
+                        int index = r.Next(lettresPond.Count);//choix d'un index aléatoire dans le pool restant
 
 
-                        Matrice[i, j] = lettresPool[index];  // Remplissage de la matrice avec la lettre choisie
+                        Matrice[i, j] = lettresPond[index];  // Remplissage de la matrice avec la lettre choisie
 
 
-                        lettresPool.RemoveAt(index); //Retirer la lettre du pool après utilisation
+                        lettresPond.RemoveAt(index); //Retirer la lettre du pool après utilisation
                     }
                     else
                     {
