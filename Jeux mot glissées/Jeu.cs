@@ -333,11 +333,11 @@ namespace Jeux_mot_glissées
                 }
 
                 
-                object chemin = PlateauCourant.Recherche_Mot(motSaisi);//on regarde si le mot est compatible avec le plateau
+                object chemin = PlateauCourant.Recherche_Mot(motSaisi); //renvoie le chemin si le mot est trouvée, sinon null
 
-                if (chemin == null)
+                if (chemin == null) //si le mot n'est pas trouvée sur le plateau
                 {
-                    Console.WriteLine("Erreur : Mot non compatible avec le plateau ou trop court");
+                    Console.WriteLine("Erreur : Mot non compatible avec le plateau ou trop court"); 
                     continue;
                 }
 

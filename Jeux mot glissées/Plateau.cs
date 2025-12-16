@@ -181,7 +181,7 @@ namespace Jeux_mot_glissées
                     this.nbcolonnes = lignes[0].Split(',').Length; // on compte combien il y a de colonnes en regardant la premiere ligne. On découpe avec split
                 }
 
-                // Redimensionnement de la Matrice
+                // Dimensionnement de la Matrice
                 Matrice = new char[nblignes, nbcolonnes];
                 for (int i = 0; i < nblignes; i++)
                 {
