@@ -347,7 +347,8 @@ namespace Jeux_mot_glissées
                     if (!chemin.Contains((nLig, nCol)) && Matrice[nLig, nCol] == lettreCible) //vérifie si la case est déjà dans le chemin et si la lettre correspond à la cible
                     {
                       
-                        if (!chemin.Contains((nLig, nCol)) &&             // La case n'est pas déjà visitée
+                        if (           
+
                         char.IsLetter(Matrice[nLig, nCol]) &&        // La case contient une lettre
                          Matrice[nLig, nCol] == lettreCible)          // La lettre correspond à celle recherchée
                         {
