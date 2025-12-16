@@ -182,14 +182,14 @@ namespace Jeux_mot_glissées
                 }
 
                 // Dimensionnement de la Matrice
-                Matrice = new char[nblignes, nbcolonnes];
+                Matrice = new char[nblignes, nbcolonnes]; //initialise la matrice avec les bonnes  dimensions 
                 for (int i = 0; i < nblignes; i++)
                 {
                     var lettres = lignes[i].Split(',').Select(s => s.Trim().ToUpper()).ToArray(); // Convertir toutes les cellules en majuscules/sans espaces une seule fois
 
                     for (int j = 0; j < nbcolonnes; j++)
                     {
-                        string cellule = lettres[j];
+                        string cellule = lettres[j]; // Récupère la cellule courante
 
                         if (string.IsNullOrEmpty(cellule))
                         {
