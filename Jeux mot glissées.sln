@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jeux mot glissées", "Jeux mot glissées\Jeux mot glissées.csproj", "{F89F0656-A508-461C-804E-2DB1F1B1A30A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Motsglissés.Tests", "Motsglissés.Tests\Motsglissés.Tests.csproj", "{42C0687F-0D4E-496E-A360-2B1E221BEAE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotsTests", "MotsTests\MotsTests.csproj", "{5C59A80C-2AE5-484F-A519-9AE4691E144A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,14 +23,14 @@ Global
 		{F89F0656-A508-461C-804E-2DB1F1B1A30A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F89F0656-A508-461C-804E-2DB1F1B1A30A}.Release|x64.ActiveCfg = Release|x64
 		{F89F0656-A508-461C-804E-2DB1F1B1A30A}.Release|x64.Build.0 = Release|x64
-		{42C0687F-0D4E-496E-A360-2B1E221BEAE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42C0687F-0D4E-496E-A360-2B1E221BEAE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42C0687F-0D4E-496E-A360-2B1E221BEAE2}.Debug|x64.ActiveCfg = Debug|x64
-		{42C0687F-0D4E-496E-A360-2B1E221BEAE2}.Debug|x64.Build.0 = Debug|x64
-		{42C0687F-0D4E-496E-A360-2B1E221BEAE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42C0687F-0D4E-496E-A360-2B1E221BEAE2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42C0687F-0D4E-496E-A360-2B1E221BEAE2}.Release|x64.ActiveCfg = Release|x64
-		{42C0687F-0D4E-496E-A360-2B1E221BEAE2}.Release|x64.Build.0 = Release|x64
+		{5C59A80C-2AE5-484F-A519-9AE4691E144A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C59A80C-2AE5-484F-A519-9AE4691E144A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C59A80C-2AE5-484F-A519-9AE4691E144A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5C59A80C-2AE5-484F-A519-9AE4691E144A}.Debug|x64.Build.0 = Debug|Any CPU
+		{5C59A80C-2AE5-484F-A519-9AE4691E144A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C59A80C-2AE5-484F-A519-9AE4691E144A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C59A80C-2AE5-484F-A519-9AE4691E144A}.Release|x64.ActiveCfg = Release|Any CPU
+		{5C59A80C-2AE5-484F-A519-9AE4691E144A}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
