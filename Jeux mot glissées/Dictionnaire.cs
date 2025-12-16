@@ -15,14 +15,14 @@ namespace Jeux_mot_glissées
 {
      public class Dictionnaire
     {
-        private const string NOM_FICHIER_DICO = "MotsFrancais.txt";
+        private const string NOM_FICHIER_DICO = "MotsFrancais.txt"; // Définit une constante privée pour le nom du fichier source des mots. Constante = valeur inchangeable compilée
         private List<List<string>> motsparlettre; //Liste des 26 lettres et chaque lettre contient une liste contenant tous les mots qui commencent par cette lettre
         private string langue ; 
 
         public List<List<string>> Motsparlettre
         {
-            get { return motsparlettre; }
-            private set { motsparlettre = value;}
+            get { return motsparlettre; } 
+            private set { motsparlettre = value; } // // Mutateur privé qui empêche la modification en dehors de la classe
         }
     
         
@@ -36,14 +36,13 @@ namespace Jeux_mot_glissées
             this.Langue = "Français";
             Motsparlettre = new List<List<string>>();
             // Initialisation des 26 sous-listes (une par lettre)
-            for (int i = 0; i < 26; i++)
+            for (int i = 0; i < 26; i++) 
             {
-                Motsparlettre.Add(new List<string>());
+                Motsparlettre.Add(new List<string>()); // A chaque itération, on ajoute une nouvelle liste vide pour chaque lettre de l'alphabet
             }
 
-            LireDictionnaire();
-            Tri_QuickSort(); // tri du dictionnaire
-           
+            LireDictionnaire(); // lit le fichier et répartit les mots dans les bonnes sous-listes suivant leur première lettre
+            Tri_QuickSort(); // Appelle la méthode de tri afin d’ordonner les mots dans chaque sous-liste
         }
         /// <summary>
         /// Cette fonction sert de point de départ.
@@ -56,7 +55,7 @@ namespace Jeux_mot_glissées
             {
               
                 if (listeMots != null && listeMots.Count > 1)//on vérifie qu"elle n'est pas nulle
-                    QuickSort(listeMots, 0, listeMots.Count - 1);
+                    QuickSort(listeMots, 0, listeMots.Count - 1); 
             }
         }
         /// <summary>
@@ -128,11 +127,14 @@ namespace Jeux_mot_glissées
                     if (string.IsNullOrWhiteSpace(ligne)) continue;
 
                    
-                    var tokens = ligne.Split(null as char[], StringSplitOptions.RemoveEmptyEntries)
-                                      .Select(m => m.Trim().ToUpper())
-                                      .ToList();
+                    var tokens = ligne.Split(null as char[], StringSplitOptions.RemoveEmptyEntries)  //Split découpe une chaine en morceaux. On tilise par défaut tous les espaces blancs comme séparateurs et supprime les morceaux vides
 
-                    if (tokens.Count == 0) continue;
+
+                                      .Select(m => m.Trim().ToUpper()) //Met en majuscules et supprime les espaces avant et après chaque élément
+                                      .ToList(); //Convertit le résultat en liste
+
+                    if (tokens.Count == 0) continue;  //Si la ligne ne contient aucun mot (tokens est vide), alors on saute cette itération et on passe à la suivante. »
+
 
                     foreach (string token in tokens)
                     {
@@ -146,7 +148,8 @@ namespace Jeux_mot_glissées
                             {
                                 
                                 int index = premiereLettre - 'A';// 'A' est à l'index 0, 'B' à 1, etc.
-                                Motsparlettre[index].Add(token);
+                                Motsparlettre[index].Add(token); // Range le mot dans la bonne sous-liste de dictionnaire
+
                             }
                         }
                     }
@@ -199,7 +202,7 @@ namespace Jeux_mot_glissées
 
            
             int index = premiereLettre - 'A'; // Détermine l'index de la liste cible 
-            List<string> listeCible = Motsparlettre[index];
+            List<string> listeCible = Motsparlettre[index];  // listeCible = liste des mots qui commencent par la lettre index
 
             // Lance la recherche dichotomique récursive sur la sous-liste triée.
             return RechercherMotRecursifAide(listeCible, motMaj, 0, listeCible.Count - 1);//on se restreint à rechercher les mots qui commencent par la même lettre

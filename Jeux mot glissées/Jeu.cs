@@ -20,7 +20,7 @@ namespace Jeux_mot_glissées
         private TimeSpan DureePartie;
         private TimeSpan TempsParTour;
         private DateTime heureDebutPartie;
-        public Jeu()
+        public Jeu() // Constructeur de la classe Jeu
         {
 
             Dico = new Dictionnaire();
@@ -72,7 +72,7 @@ namespace Jeux_mot_glissées
 
                 while (nomValide == false)
                 {
-                    // Note : J'ai mis des parenthèses autour de (i + 1) pour faire l'addition correctement
+                    // Note : Nous avons mis des parenthèses autour de (i + 1) pour faire l'addition correctement
                     Console.Write("Entrez le nom du Joueur " + (i + 1) + " : ");
                     nom = Console.ReadLine();
 
@@ -134,7 +134,7 @@ namespace Jeux_mot_glissées
 
             // Configuration de la Durée Totale de la Partie
 
-            double minPartie = 0;
+            int minPartie = 0;
             bool saisieValideMin = false;
 
             while (!saisieValideMin)
@@ -145,11 +145,11 @@ namespace Jeux_mot_glissées
                 
                 if (string.IsNullOrWhiteSpace(input))// si la saisie est vide
                 {
-                    minPartie = DureePartieDefaut.TotalMinutes;
+                    minPartie = (int)DureePartieDefaut.TotalMinutes;
                     saisieValideMin = true;
                 }
                
-                else if (double.TryParse(input, out minPartie) && minPartie > 0) //on essaye de lire et on test si >0
+                else if (int.TryParse(input, out minPartie) && minPartie > 0) //on essaye de lire et on test si >0
                 {
                     saisieValideMin = true;
                 }
@@ -209,7 +209,7 @@ namespace Jeux_mot_glissées
         {
             PlateauCourant = plateauInitial;
             this.heureDebutPartie = DateTime.Now;
-            int indexJoueur = 0;
+            int indexJoueur = 0; //index pour alterner les joueurs
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\n*** DÉBUT DE LA PARTIE ! ***");
@@ -219,7 +219,9 @@ namespace Jeux_mot_glissées
 
             while ((DateTime.Now - heureDebutPartie) < DureePartie && PlateauCourant.Matrice.Cast<char>().Any(char.IsLetter))// La boucle continue tant que le temps n'est pas écoulé OU qu'il reste des lettres
             {
-                Joueur joueurActuel = Joueurs[indexJoueur % Joueurs.Count];//pour alterner les joueurs
+                Joueur joueurActuel = Joueurs[indexJoueur % Joueurs.Count];// Cette ligne sélectionne le joueur actuel en fonction de indexJoueur, sans jamais dépasser la taille de la liste grâce au modulo.
+
+
                 TimeSpan tempsRestantPartie = DureePartie - (DateTime.Now - this.heureDebutPartie);
 
                 Console.WriteLine($"\n===========================================================");

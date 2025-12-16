@@ -13,7 +13,7 @@ namespace Jeux_mot_glissées
         private int scoretot;
         private List<int> scoreplateau;
 
-        public Joueur(string nom)
+        public Joueur(string nom) // Constructeur de la classe Joueur
         {
             this.nom = nom;
             this.motstrouvés = new List<string>();
@@ -25,7 +25,7 @@ namespace Jeux_mot_glissées
         {
             get { return nom; }
         }
-        public List<string> Motstrouvés
+        public List<string> Motstrouvés 
         {
             get { return motstrouvés; }
             private set { motstrouvés = value; }
