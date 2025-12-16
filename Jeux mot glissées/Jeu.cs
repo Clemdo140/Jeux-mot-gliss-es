@@ -298,7 +298,13 @@ namespace Jeux_mot_glissées
 
             while ((DateTime.Now - heureDebutTour) < TempsParTour)
             {
-                TimeSpan tempsRestantTour = TempsParTour;
+                TimeSpan tempsPasse = DateTime.Now - heureDebutTour;
+                TimeSpan tempsRestantTour = TempsParTour - tempsPasse;
+
+                if (tempsRestantTour <= TimeSpan.Zero)
+                {
+                    break; // Sortir si le temps est déjà écoulé
+                }
 
                 TimeSpan tempsRestantGlobal = DureePartie - (DateTime.Now - this.heureDebutPartie); // Calcul du temps restant global 
                 Console.ForegroundColor = ConsoleColor.Yellow;
